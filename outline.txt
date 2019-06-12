@@ -1,0 +1,36 @@
+JSON Data Structure:
+- 3 different collections
+--------------
+1 - Climbing Session:
+{
+    'type': 'boulder', 'toprope', or 'sport',
+    'envr': 'in' or 'out',
+    'avGr': if boulder: 0-15, else: 5.8-5.15d, (how to handle letters? convert letters to vals?)
+    'hiGr': if boulder: 0-15, else: 5.8-5.15d, (^)
+    'date': (how to store?),
+    'durn': float = # of hours,
+    'locn': string = where, ('drg', 'castle rock', etc)
+    'note': string = any extra notes
+}
+    -show progress of each type independently
+        -overlay two types at same time with different axis?
+    -calculate current PR of each
+
+-----
+2 - Weight Training Session:
+{
+    'type': 'bench', 'neg', or 'pistol',
+    'date': (how to store?),
+    'sets': int = # of sets,
+    'reps': int = # of reps/set, (float?)
+    'wght': float = weight
+}
+    -calculate PR of each type
+
+-----
+3 - Body Weight Tracking:
+{
+    'date': (how to store?),
+    'wght': float = weight in lbs (allow conversion to kgs in UI)
+}
+    -trivial
