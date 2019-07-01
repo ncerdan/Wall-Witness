@@ -3,15 +3,16 @@ JSON Data Structure:
 --------------
 1 - Climbing Session:
 {
-    'type': 'boulder', 'toprope', or 'sport',
-    'envr': 'in' or 'out',
-    'avGr': if boulder: 0-15, else: 5.8-5.15d, (how to handle letters? convert letters to vals?)
-    'hiGr': if boulder: 0-15, else: 5.8-5.15d, (^)
-    'date': (how to store?),
+    'type': string = 'boulder', 'toprope', or 'sport',
+    'envr': string = 'in' or 'out',
+    'avGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                       (convert letters of non-B to decimal values)
+    'hiGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                           ^(a=.00,b=.25,c=.50,d=.75)
+    'date': datetime.datetime objects = date of session (time not relevant),
     'durn': float = # of hours,
-    'locn': string = where, ('drg', 'castle rock', etc)
+    'locn': string = where session was,
     'note': string = any extra notes
 }
+    -all required except 'note' (--> fill with NONE if no notes? does it handle Null well automatically?)
     -show progress of each type independently
         -overlay two types at same time with different axis?
     -calculate current PR of each
@@ -19,18 +20,20 @@ JSON Data Structure:
 -----
 2 - Weight Training Session:
 {
-    'type': 'bench', 'neg', or 'pistol',
-    'date': (how to store?),
+    'type': string = 'bench', 'neg', or 'pistol',
+    'date': datetime.datetime object = date of workout,
     'sets': int = # of sets,
     'reps': int = # of reps/set, (float?)
     'wght': float = weight
 }
     -calculate PR of each type
+    -be able to display progress
 
 -----
 3 - Body Weight Tracking:
 {
-    'date': (how to store?),
+    'date': datetime.datetime objects = date of weight record,
     'wght': float = weight in lbs (allow conversion to kgs in UI)
 }
     -trivial
+    -be able to display progress
