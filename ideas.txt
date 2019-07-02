@@ -1,3 +1,4 @@
 windows GUI with drop down menus left to right
 type -> in/out -> location -> duration -> avGr -> hiGr ...
    Use PyQT?
+delete button (/edit button?)

@@ -1,0 +1,6 @@
+-setup mongoDB atlas
+-create class for adding sessions/workouts/weight to database (class for database? class for each type of entry?)
+-use pyQT to create GUI for adding entries that uses above class(es) to update database
+-create table (or something simple) to know if it works properly (just use compass?)
+-use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
+-pretty up (optional)
