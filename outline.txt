@@ -7,7 +7,7 @@ JSON Data Structure:
     'envr': string = 'in' or 'out',
     'avGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                       (convert letters of non-B to decimal values)
     'hiGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                           ^(a=.00,b=.25,c=.50,d=.75)
-    'date': datetime.datetime objects = date of session (time not relevant),
+    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
     'durn': float = # of hours,
     'locn': string = where session was,
     'note': string = any extra notes
@@ -21,10 +21,11 @@ JSON Data Structure:
 2 - Weight Training Session:
 {
     'type': string = 'bench', 'neg', or 'pistol',
-    'date': datetime.datetime object = date of workout,
+    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
     'sets': int = # of sets,
-    'reps': int = # of reps/set, (float?)
-    'wght': float = weight
+    'reps': float = # of reps/set, (float for av)
+    'avWt': float = average weight,
+    'hiWt': float = most weight
 }
     -calculate PR of each type
     -be able to display progress
@@ -32,7 +33,7 @@ JSON Data Structure:
 -----
 3 - Body Weight Tracking:
 {
-    'date': datetime.datetime objects = date of weight record,
+    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
     'wght': float = weight in lbs (allow conversion to kgs in UI)
 }
     -trivial
