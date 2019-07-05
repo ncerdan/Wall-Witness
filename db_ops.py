@@ -14,7 +14,7 @@ db = client.get_database('wallwitness_db')
 sessions = db.sessions
 workouts = db.workouts
 weights  = db.weights
-prs = db.prs
+prs      = db.prs
 
 """ Functions """
 # Adding Documents
@@ -118,21 +118,24 @@ def add_weight(date, wght):
     #insert it
     weights.insert_one(to_insert)
 
+    #check if it is a new pr
+    check_new_pr('weight', wght_i, date)
+
 # Updating Documents
 def check_new_pr(type, new_data, date):
     """
     Checks if new entry sets a new pr, and if it does updates it.
     Args:
-        type (string):        type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol'],
+        type (string):        type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol', 'weight'],
         new_data (float):     new grade/weight pr,
         date (datetime.date): date of new pr.
     Returns:
         none.
     """
 
-    #check if type is bad?
+    #check if type input is bad?
 
-    #get the current pr of the given type
+    #get the current pr record of the given type
     curr_pr = prs.find_one({'type': type})
     curr_rd = curr_pr['rcrd']
 
@@ -144,7 +147,7 @@ def upd_pr(type, rcrd, date):
     """
     Updates correct pr with new date and record.
     Args:
-        type (string):        type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol'],
+        type (string):        type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol', 'weight'],
         rcrd (float):         new grade/weight pr,
         date (datetime.date): date pr was attained.
     Returns:

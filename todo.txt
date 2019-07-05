@@ -1,9 +1,9 @@
 OVERALL
--fully check db_ops
+-fully check db_ops (inserting and checking prs)
 -use pyQT to create GUI for adding entries that uses above class(es) to update database
--create table (or something simple) to know if it works properly (just use compass?)
+-create table (or something simple) to know if it works properly
 -use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
 -pretty up (optional)
 
 SPECIFIC
--change collections in atlas to not have '_c' -> just use _c in python script
+-
