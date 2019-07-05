@@ -1,5 +1,5 @@
 JSON Data Structure:
-- 3 different collections
+- 4 collections
 --------------
 1 - Climbing Session:
 {
@@ -15,7 +15,7 @@ JSON Data Structure:
     -all required except 'note' (--> fill with NONE if no notes? does it handle Null well automatically?)
     -show progress of each type independently
         -overlay two types at same time with different axis?
-    -calculate current PR of each
+    -calculate/save current PR of each
 
 -----
 2 - Weight Training Session:
@@ -27,7 +27,7 @@ JSON Data Structure:
     'avWt': float = average weight,
     'hiWt': float = most weight
 }
-    -calculate PR of each type
+    -calculate/save PR of each type
     -be able to display progress
 
 -----
@@ -38,3 +38,12 @@ JSON Data Structure:
 }
     -trivial
     -be able to display progress
+
+-----
+4 - Personal Records Tracking:
+{
+    'type': string = 'boulder', 'toprope', 'sport', 'bench', 'neg', or 'pistol'
+    'rcrd': float = grade/weight of pr,
+    'date': datetime.date().strftime("%Y-%m-%d") objects = date of getting pr
+}
+    -one entry per type. only update entries once theyre first put in.
