@@ -34,6 +34,7 @@ def add_session(type, envr, avGr, hiGr, date, durn, locn, note):
     Returns:
         none.
     """
+
     #marshalling data
     type_i = str(type)
     envr_i = str(envr)
@@ -73,6 +74,7 @@ def add_workout(type, date, sets, reps, avWt, hiWt):
     Returns:
         none.
     """
+
     #marshalling data
     type_i = str(type)
     date_i = date.strftime("%Y-%m-%d")
@@ -104,6 +106,7 @@ def add_weight(date, wght):
     Returns:
         none.
     """
+
     #marshalling data
     date_i = date.strftime("%Y-%m-%d")
     wght_i = float(wght)
@@ -147,6 +150,7 @@ def upd_pr(type, rcrd, date):
     Returns:
         none.
     """
+
     #marshalling data
     date_i = date.strftime("%Y-%m-%d")
     to_update = {
@@ -158,7 +162,7 @@ def upd_pr(type, rcrd, date):
     #update the correct pr's to the new data
     prs.update({'type': type}, to_update)
 
-# Deleting Documents (how? -- based off of what?)
+# Deleting Documents (based off of what?)
 def del_session():
     return -999
 
