@@ -6,4 +6,4 @@ OVERALL
 -pretty up (optional)
 
 SPECIFIC
--
+-unhide AppData folder at (around) c:/users/ncerd/ for easier access to python37
