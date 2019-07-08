@@ -44,13 +44,10 @@ class MainUILogic(baseUIWidget, baseUIClass):
     def launch_dialog(self, type):
         dialog = QtGui.QDialog()
         if (type == SESSION):
-            dialogUIClass, dialogUIWidget = uic.loadUiType("ui/sessionDialog.ui")
             dialog.ui = SessionUILogic.SessionUILogic()
         elif (type == WORKOUT):
-            dialogUIClass, dialogUIWidget = uic.loadUiType("ui/workoutDialog.ui")
             dialog.ui = WorkoutUILogic.WorkoutUILogic()
         else:
-            dialogUIClass, dialogUIWidget = uic.loadUiType("ui/weightDialog.ui")
             dialog.ui = WeightUILogic.WeightUILogic()
 
         dialog.ui.setupUi(dialog)

@@ -6,4 +6,4 @@ OVERALL
 -pretty up (optional)
 
 SPECIFIC
--remove calls to getUiType() in launch_dialog? it doesn't seem needed.
+-
