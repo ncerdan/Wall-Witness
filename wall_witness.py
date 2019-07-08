@@ -13,6 +13,13 @@ class MainUILogic(baseUIWidget, baseUIClass):
         super(MainUILogic, self).__init__(parent)
         self.setupUi(self)
 
+        # Set exit button and shortcut
+        self.actionExit.triggered.connect(self.close_app)
+        self.actionExit.setShortcut('ctrl+Q')
+
+    def close_app(self):
+        sys.exit()
+
 # main routine
 def main():
     app = QtGui.QApplication(sys.argv)
