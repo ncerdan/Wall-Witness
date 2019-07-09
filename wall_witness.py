@@ -21,44 +21,39 @@ class MainUILogic(baseUIWidget, baseUIClass):
         super(MainUILogic, self).__init__(parent)
         self.setupUi(self)
 
+        # Setup exit action and shortcut
+        self.actionExit.triggered.connect(self.close_app)
+        self.actionExit.setShortcut('ctrl+Q')
+
+        # Setup button handlers
+        self.setup_buttons()
+
+    def setup_buttons(self):
         # Set session, workout, and weight buttons
         self.sessionBtn.clicked.connect(self.launch_session)
         self.workoutBtn.clicked.connect(self.launch_workout)
         self.weightBtn.clicked.connect(self.launch_weight)
 
-        # Set exit button and shortcut
-        self.actionExit.triggered.connect(self.close_app)
-        self.actionExit.setShortcut('ctrl+Q')
-
     # Redirection functions
-    def launch_session(self):
-        self.launch_dialog(SESSION)
+    def launch_session(self): self.launch_dialog(SESSION)
+    def launch_workout(self): self.launch_dialog(WORKOUT)
+    def launch_weight(self):  self.launch_dialog(WEIGHT)
 
-    def launch_workout(self):
-        self.launch_dialog(WORKOUT)
-
-    def launch_weight(self):
-        self.launch_dialog(WEIGHT)
-
-    # Handles launching session, workout, or weight dialogs base on type
+    # Handles launching session, workout, or weight dialogs based on type
     def launch_dialog(self, type):
         dialog = QtGui.QDialog()
-        if (type == SESSION):
-            dialog.ui = SessionUILogic.SessionUILogic()
-        elif (type == WORKOUT):
-            dialog.ui = WorkoutUILogic.WorkoutUILogic()
-        else:
-            dialog.ui = WeightUILogic.WeightUILogic()
+        if (type == SESSION):   dialog.ui = SessionUILogic.SessionUILogic()
+        elif (type == WORKOUT): dialog.ui = WorkoutUILogic.WorkoutUILogic()
+        else:                   dialog.ui = WeightUILogic.WeightUILogic()
 
         dialog.ui.setupUi(dialog)
         dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         dialog.exec_()
 
     # Handle closing application
-    def close_app(self):
-        sys.exit()
+    def close_app(self): sys.exit()
 
-# main routine
+"""  Main Routine """
 def main():
     app = QtGui.QApplication(sys.argv)
     ui = MainUILogic()
