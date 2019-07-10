@@ -13,10 +13,10 @@ WEIGHT  = 2
 
 """ UI Class """
 # load ui file for main layout
-baseUIClass, baseUIWidget = uic.loadUiType("ui/mainWindow.ui")
+MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 
 # use loaded ui file in ui logic class
-class MainUILogic(baseUIWidget, baseUIClass):
+class MainUILogic(MainWindowBase, MainWindowUI):
     def __init__(self, parent=None):
         super(MainUILogic, self).__init__(parent)
         self.setupUi(self)
@@ -33,6 +33,8 @@ class MainUILogic(baseUIWidget, baseUIClass):
         self.sessionBtn.clicked.connect(self.launch_session)
         self.workoutBtn.clicked.connect(self.launch_workout)
         self.weightBtn.clicked.connect(self.launch_weight)
+
+        self.sessionBtn.move(10, 10)
 
     # Redirection functions
     def launch_session(self): self.launch_dialog(SESSION)
