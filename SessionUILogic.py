@@ -3,10 +3,10 @@ from PyQt4 import QtGui, uic
 
 """ UI Class """
 # load ui file for main layout
-baseUIClass, baseUIWidget = uic.loadUiType("ui/sessionDialog.ui")
+SessionDialogUI, SessionDialogBase = uic.loadUiType("ui/sessionDialog.ui")
 
 # use loaded ui file in ui logic class
-class SessionUILogic(baseUIWidget, baseUIClass):
+class SessionUILogic(SessionDialogBase, SessionDialogUI):
     def __init__(self, parent=None):
         super(SessionUILogic, self).__init__(parent)
         self.setupUi(self)
