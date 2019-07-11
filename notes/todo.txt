@@ -7,3 +7,5 @@ OVERALL
 
 SPECIFIC
 -unhide AppData folder at (around) c:/users/ncerd/ for easier access to python37
+-add dropdown menu for lbs / kgs in weightUI
+    -buttons instead of drop down?
