@@ -8,9 +8,10 @@ WeightDialogUI, WeightDialogBase = uic.loadUiType("ui/weightDialog.ui")
 # use loaded ui file in ui logic class
 class WeightUILogic(WeightDialogBase, WeightDialogUI):
     def __init__(self, parent=None):
-        super(WeightUILogic, self).__init__(parent)
+        super().__init__(parent)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.setupUi(self)
-
+        
         self.setup_buttons()
 
     def setup_buttons(self):
@@ -18,9 +19,12 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         self.cancelBtn.clicked.connect(self.close_dialog)
 
     def submit_entry(self):
-        print("Submit!")
-        print("Weight: " + self.weightEdit.text())
+        print("Submited weight: " + self.weightEdit.text() + "lbs.")
+
+        # check to make sure user actually inputted some weight AND that its a float
+        
         self.close_dialog()
 
     def close_dialog(self):
         print("Closing!")
+        self.done(1)

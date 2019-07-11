@@ -18,7 +18,7 @@ MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 # use loaded ui file in ui logic class
 class MainUILogic(MainWindowBase, MainWindowUI):
     def __init__(self, parent=None):
-        super(MainUILogic, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
 
         # Setup exit action and shortcut
@@ -43,13 +43,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handles launching session, workout, or weight dialogs based on type
     def launch_dialog(self, type):
-        dialog = QtGui.QDialog()
-        if (type == SESSION):   dialog.ui = SessionUILogic.SessionUILogic()
-        elif (type == WORKOUT): dialog.ui = WorkoutUILogic.WorkoutUILogic()
-        else:                   dialog.ui = WeightUILogic.WeightUILogic()
-
-        dialog.ui.setupUi(dialog)
-        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        if (type == SESSION):   dialog = SessionUILogic.SessionUILogic(self)
+        elif (type == WORKOUT): dialog = WorkoutUILogic.WorkoutUILogic(self)
+        else:                   dialog = WeightUILogic.WeightUILogic(self)
         dialog.exec_()
 
     # Handle closing application
