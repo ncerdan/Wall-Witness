@@ -22,6 +22,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         # Ensure weight input is double
         doubleValidator = QtGui.QDoubleValidator()
         self.weightEdit.setValidator(doubleValidator)
+        self.weightEdit.setPlaceholderText("0.0")
 
         # Add units options
         self.unitsBox.clear()
@@ -55,6 +56,9 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         # Possibly convert weight from kg -> lbs
         if units == 'kg':
             weight = weight * 2.205
+
+        # Round weight entry
+        weight = round(weight, 1)
 
         # Add new entry into the database
         db_ops.add_weight(date, weight)
