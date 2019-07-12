@@ -61,6 +61,13 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Setup button connections
         self.setup_buttons()
+        
+        """   TESTING   """
+        self.toggleDB = QtGui.QCheckBox(self)
+        self.toggleDB.move(50, 250)
+        self.toggleDB.setChecked(False)
+        self.toggleDB.show()
+        """ END TESTING """
 
     def setup_buttons(self):
         self.submitBtn.clicked.connect(self.submit_entry)
@@ -118,7 +125,11 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         hiWt = round(hiWt, 1)
 
         # Add new entry into the database
-        db_ops.add_workout(type, date, sets, reps, avWt, hiWt)
+        """   TESTING   """
+        if self.toggleDB.isChecked():
+            print('sent to DB')
+            """ END TESTING """
+            db_ops.add_workout(type, date, sets, reps, avWt, hiWt)
 
         # Close dialog
         self.close_dialog()
