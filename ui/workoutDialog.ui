@@ -13,6 +13,221 @@
   <property name="windowTitle">
    <string>New Workout Entry</string>
   </property>
+  <widget class="QPushButton" name="submitBtn">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>260</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Submit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancelBtn">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>260</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="typeBox">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>115</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit">
+   <property name="geometry">
+    <rect>
+     <x>245</x>
+     <y>30</y>
+     <width>115</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::UpDownArrows</enum>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dateLabel">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>10</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Date</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="typeLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>10</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="setsEdit">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>100</y>
+     <width>115</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="repsEdit">
+   <property name="geometry">
+    <rect>
+     <x>245</x>
+     <y>100</y>
+     <width>115</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="avWtEdit">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>170</y>
+     <width>70</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="hiWtEdit">
+   <property name="geometry">
+    <rect>
+     <x>245</x>
+     <y>170</y>
+     <width>70</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="setsLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>80</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sets</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="avWtLabel">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>150</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ave Weight</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="repsLabel">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>80</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reps</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="hiWtLabel">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>150</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Max Weight</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="warningLabel">
+   <property name="geometry">
+    <rect>
+     <x>138</x>
+     <y>240</y>
+     <width>251</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Oops! You need to input a weight.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="indent">
+    <number>-1</number>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::NoTextInteraction</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="avWtUnitsBox">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>170</y>
+     <width>45</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="hiWtUnitsBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>170</y>
+     <width>45</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
