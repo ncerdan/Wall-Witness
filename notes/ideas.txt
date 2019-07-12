@@ -1,6 +1,3 @@
-windows GUI with drop down menus left to right
-type -> in/out -> location -> duration -> avGr -> hiGr ...
-   Use PyQT?
 show graph of progress on bottom with menu to show what y axis is
 show tables of data on right w tabs above to choose collection viewing
 delete button
