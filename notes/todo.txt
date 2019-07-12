@@ -1,11 +1,9 @@
 OVERALL
 -fully check db_ops (inserting and checking prs)
--use pyQT to create GUI for adding entries that uses db_ops functions to update database
+-use pyQT to create GUI for adding entries that uses db_ops library to update database
 -create table in GUI (or something simple) to know if it works properly
 -use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
 -pretty up (optional)
 
 SPECIFIC
--unhide AppData folder at (around) c:/users/ncerd/ for easier access to python37
--add dropdown menu for lbs / kgs in weightUI
-    -buttons instead of drop down?
+-
