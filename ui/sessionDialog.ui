@@ -45,12 +45,12 @@
     <string>Date</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="envBox">
+  <widget class="QComboBox" name="envrBox">
    <property name="geometry">
     <rect>
      <x>164</x>
      <y>20</y>
-     <width>75</width>
+     <width>77</width>
      <height>30</height>
     </rect>
    </property>
@@ -65,7 +65,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="envLabel">
+  <widget class="QLabel" name="envrLabel">
    <property name="geometry">
     <rect>
      <x>167</x>
@@ -201,6 +201,9 @@
      <width>321</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="documentTitle">
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="noteLabel">
