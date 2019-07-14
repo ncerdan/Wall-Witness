@@ -99,14 +99,17 @@
   <widget class="QLabel" name="warningLabel">
    <property name="geometry">
     <rect>
-     <x>185</x>
+     <x>130</x>
      <y>240</y>
-     <width>204</width>
+     <width>251</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>Oops! You need to input a weight.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
    <property name="indent">
     <number>-1</number>

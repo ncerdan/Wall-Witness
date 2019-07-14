@@ -12,8 +12,8 @@ WorkoutDialogUI, WorkoutDialogBase = uic.loadUiType("ui/workoutDialog.ui")
 # use loaded ui file in ui logic class
 class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
-    workoutTypesList = ['--', 'Bench Press', '1-Arm Negative', 'Pistol Squat']
-    weightUnitsList = ['lbs', 'kg']
+    typesList = ['--', 'Bench Press', '1-Arm Negative', 'Pistol Squat']
+    unitsList = ['lbs', 'kg']
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -22,7 +22,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add type options
         self.typeBox.clear()
-        self.typeBox.addItems(self.workoutTypesList)
+        self.typeBox.addItems(self.typesList)
 
         # Define default date for calendar as system date
         self.dateEdit.setDate(QtCore.QDate.currentDate())
@@ -44,7 +44,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add average weight units options
         self.avWtUnitsBox.clear()
-        self.avWtUnitsBox.addItems(self.weightUnitsList)
+        self.avWtUnitsBox.addItems(self.unitsList)
 
         # Ensure hiWt input is float
         doubleValidator3 = QtGui.QDoubleValidator()
@@ -53,7 +53,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add average weight units options
         self.hiWtUnitsBox.clear()
-        self.hiWtUnitsBox.addItems(self.weightUnitsList)
+        self.hiWtUnitsBox.addItems(self.unitsList)
 
         # Set up custom warning text
         self.warningLabel.setStyleSheet('QLabel#warningLabel {color: red}')
@@ -61,7 +61,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Setup button connections
         self.setup_buttons()
-        
+
         """   TESTING   """
         self.toggleDB = QtGui.QCheckBox(self)
         self.toggleDB.move(50, 250)

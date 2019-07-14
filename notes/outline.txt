@@ -5,11 +5,11 @@ JSON Data Structure:
 {
     'type': string = 'boulder', 'toprope', or 'sport',
     'envr': string = 'in' or 'out',
-    'avGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                       (convert letters of non-B to decimal values)
-    'hiGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                           ^(a=.00,b=.25,c=.50,d=.75)
     'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
-    'durn': float = # of hours,
     'locn': string = where session was,
+    'durn': float = # of hours,
+    'avGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                         (convert letters of non-B to decimal values)
+    'hiGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                             ^(a=.00,b=.25,c=.50,d=.75)
     'note': string = any extra notes
 }
     -all required except 'note' (--> fill with NONE if no notes? does it handle Null well automatically?)
