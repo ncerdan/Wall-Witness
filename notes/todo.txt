@@ -1,7 +1,7 @@
 OVERALL
 -fully check db_ops (inserting and checking prs)
--use pyQT to create GUI for adding entries that uses db_ops library to update database
--create table in GUI (or something simple) to know if it works properly
+-fully check GUI functionality (empty fields and marshalling)
+-create table in GUI (or something simple) to display data
 -use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
 -pretty up (optional)
 
