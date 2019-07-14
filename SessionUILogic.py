@@ -1,5 +1,9 @@
 """ Import  """
+# Public
 from PyQt4 import QtGui, uic, QtCore
+
+# Personal
+import db_ops
 
 """ UI Class """
 # load ui file for main layout
@@ -9,14 +13,38 @@ SessionDialogUI, SessionDialogBase = uic.loadUiType("ui/sessionDialog.ui")
 class SessionUILogic(SessionDialogBase, SessionDialogUI):
 
     typesList = ['--', 'Boulder', 'Top-Rope', 'Sport']
+    marshalled_type = {
+        'Boulder': 'boulder',
+        'Top-Rope': 'toprope',
+        'Sport': 'sport'
+    }
+
     envrList  = ['--', 'Indoors', 'Outdoors']
+    marshalled_envr = {
+        'Indoors': 'in',
+        'Outdoors': 'out'
+    }
+
     unitsList = ['hr', 'min']
-    bldrList  = ['--', 'V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13']
+
+    bldrList  = ['--', 'V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
     ropeList  = ['--', '5.9',
                        '5.10a', '5.10b', '5.10c', '5.10d',
                        '5.11a', '5.11b', '5.11c', '5.11d',
                        '5.12a', '5.12b', '5.12c', '5.12d',
                        '5.13a', '5.13b', '5.13c', '5.13d']
+    marshalled_grades = {
+        # Bouldering grade mappings
+        'V0': 0, 'V1': 1, 'V2': 2,  'V3': 3,   'V4': 4,   'V5': 5,   'V6': 6,
+        'V7': 7, 'V8': 8, 'V9': 9, 'V10': 10, 'V11': 11, 'V12': 12, 'V13': 13,
+
+        # Rope grade mappings
+          '5.9': 9.00,
+        '5.10a': 10.00, '5.10b': 10.25, '5.10c': 10.50, '5.10d': 10.75,
+        '5.11a': 11.00, '5.11b': 11.25, '5.11c': 11.50, '5.11d': 11.75,
+        '5.12a': 12.00, '5.12b': 12.25, '5.12c': 12.50, '5.12d': 12.75,
+        '5.13a': 13.00, '5.13b': 13.25, '5.13c': 13.50, '5.13d': 13.75
+    }
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -126,24 +154,17 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         hiGr = str(self.hiGrBox.currentText())
         note = self.noteEdit.toPlainText()
 
-        # Convert type format to how it will stored in DB
-        """
-        if type == 'Bench Press':
-            type = 'bench'
-        elif type == '1-Arm Negative':
-            type = 'neg'
-        elif type == 'Pistol Squat':
-            type = 'pistol'
-        """
+        # Marshall data that will be represeneted in DB differently
+        type = self.marshalled_type[type]
+        envr = self.marshalled_envr[envr]
+        avGr = float(self.marshalled_grades[avGr])
+        hiGr = float(self.marshalled_grades[hiGr])
 
-        # Possibly convert weight from kg -> lbs
-        """
-        if avUt == 'kg':
-            avWt = avWt * 2.205
+        # Possibly convert duration from min -> hr
+        if dnUt == 'min': durn = durn / 60
 
-        if hiUt == 'kg':
-            hiWt = hiWt * 2.205
-        """
+        # Round duration entry
+        durn = round(durn, 2)
 
         """   TESTING
         print("type: " + type)
@@ -152,18 +173,17 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         print("locn: " + locn)
         print("durn: " + str(durn))
         print("dnUt: " + dnUt)
-        print("avGr: " + avGr)
-        print("hiGr: " + hiGr)
+        print("avGr: " + str(avGr))
+        print("hiGr: " + str(hiGr))
         print("note: " + note)
-            END TESTING """
-
+         END TESTING """
 
         # Add new entry into the database
         """   TESTING   """
         if self.toggleDB.isChecked():
             print('sent to DB')
             """ END TESTING """
-            #db_ops.add_session()
+            db_ops.add_session(type, envr, avGr, hiGr, date, durn, locn, note)
 
         # Close dialog
         self.close_dialog()

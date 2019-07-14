@@ -13,6 +13,12 @@ WorkoutDialogUI, WorkoutDialogBase = uic.loadUiType("ui/workoutDialog.ui")
 class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
     typesList = ['--', 'Bench Press', '1-Arm Negative', 'Pistol Squat']
+    marshalled_type = {
+        'Bench Press': 'bench',
+        '1-Arm Negative': 'neg',
+        'Pistol Squat': 'pistol'
+    }
+
     unitsList = ['lbs', 'kg']
 
     def __init__(self, parent=None):
@@ -105,24 +111,20 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         hiWt = float(self.hiWtEdit.text())
         hiUt = str(self.hiWtUnitsBox.currentText())
 
-        # Convert type format to how it will stored in DB
-        if type == 'Bench Press':
-            type = 'bench'
-        elif type == '1-Arm Negative':
-            type = 'neg'
-        elif type == 'Pistol Squat':
-            type = 'pistol'
+         # Marshall data that will be represeneted in DB differently
+        type = self.marshalled_type[type]
 
         # Possibly convert weight from kg -> lbs
-        if avUt == 'kg':
-            avWt = avWt * 2.205
-
-        if hiUt == 'kg':
-            hiWt = hiWt * 2.205
+        if avUt == 'kg': avWt = avWt * 2.205
+        if hiUt == 'kg': hiWt = hiWt * 2.205
 
         # Round weight entries
         avWt = round(avWt, 1)
         hiWt = round(hiWt, 1)
+
+        """   TESTING   """
+        print("type: " + type)
+        """ END TESTING """
 
         # Add new entry into the database
         """   TESTING   """
