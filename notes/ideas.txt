@@ -1,6 +1,6 @@
 allow ability to add workouts (think squats, max pullups, etc)
-make location a drop down with addition functionality for future filtering?
-show graph of progress on bottom with menu to show what y axis is showing (left AND right?)
-show tables of data on right w tabs above to choose collection viewing (for editing)
-delete button
-update/edit button?
+make location a drop down with ^addition functionality^ for future filtering?
+show graph of progress on bottom with menu to show what y axis is showing (left AND right axis?)
+show tables of data on right w tabs above to choose collection viewing (for editing?)
+delete functionality (using tables?)
+update/edit button (also using tables?)
