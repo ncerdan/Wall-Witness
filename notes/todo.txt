@@ -1,7 +1,7 @@
 OVERALL
 -fully check db_ops (inserting and checking prs)
 -fully check GUI functionality (empty fields and marshalling)
--create table in GUI to display data (using pyQT)
+-add table into GUI to display data (using pyQT) ... use for editting/deleting?
 -use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
 -pretty up (optional)
 
