@@ -6,4 +6,5 @@ OVERALL
 -pretty up (optional)
 
 SPECIFIC
--
+-allow refined graph plots
+    ex: bench press average vs max, sets/reps, etc

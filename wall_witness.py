@@ -2,6 +2,8 @@
 # Public
 import sys
 from PyQt4 import uic, QtGui, QtCore
+import matplotlib.pyplot as plt
+import dateutil.relativedelta
 
 # Personal
 import SessionUILogic, WorkoutUILogic, WeightUILogic
@@ -17,6 +19,25 @@ MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 
 # use loaded ui file in ui logic class
 class MainUILogic(MainWindowBase, MainWindowUI):
+
+    axOptionsList = ['--',
+                     'Session - Average Grade',
+                     'Session - High Grade',
+                     'Workout - Bench Press',
+                     'Workout - One-Arm Negative',
+                     'Workout - Pistol Squat',
+                     'Body Weight']
+
+    marshalled_options = {
+        'Session - Average Grade': 'avGr',
+        'Session - High Grade': 'hiGr',
+        'Workout - Bench Press': 'bench',
+        'Workout - One-Arm Negative': 'neg',
+        'Workout - Pistol Squat': 'pistol',
+        'Body Weight': 'weight'
+    }
+
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -25,8 +46,23 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.actionExit.triggered.connect(self.close_app)
         self.actionExit.setShortcut('ctrl+Q')
 
+        # Setup axis options
+        self.lAxBox.clear()
+        self.rAxBox.clear()
+        self.lAxBox.addItems(self.axOptionsList)
+        self.rAxBox.addItems(self.axOptionsList)
+
+        # Define default dates for calendars as system date - 1 month and system date
+        today = QtCore.QDate.currentDate()
+        lastMonth = today.addMonths(-1)
+        self.startDateEdit.setDate(lastMonth)
+        self.endDateEdit.setDate(today)
+
         # Setup button handlers
         self.setup_buttons()
+
+        # Setup up empty graph
+        self.canvas.figure.add_subplot(111).plot()
 
     def setup_buttons(self):
         # Set session, workout, and weight buttons
@@ -50,6 +86,13 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handle closing application
     def close_app(self): sys.exit()
+
+    # Testing
+    def plot(self):
+        """
+        ax = self.canvas.figure.add_subplot(111)
+        ax.plot([1, 2, 3, 4])
+        """
 
 """  Main Routine """
 def main():
