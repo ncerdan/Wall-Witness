@@ -5,3 +5,6 @@ show graph of progress on bottom with menu to show what y axis is showing (left 
 show tables of data on right w tabs above to choose collection viewing (for editing?)
 delete functionality (using tables?)
 update/edit button (also using tables?)
+add manual caching from server
+    if cached when updating -> update / clear cache
+    otherwise cache still valid

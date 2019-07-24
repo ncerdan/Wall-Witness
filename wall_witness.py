@@ -52,7 +52,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.lAxBox.addItems(self.axOptionsList)
         self.rAxBox.addItems(self.axOptionsList)
 
-        # Define default dates for calendars as system date - 1 month and system date
+        # Define default dates for calendars as system date-1 month, and system date
         today = QtCore.QDate.currentDate()
         lastMonth = today.addMonths(-1)
         self.startDateEdit.setDate(lastMonth)
@@ -70,7 +70,11 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.workoutBtn.clicked.connect(self.launch_workout)
         self.weightBtn.clicked.connect(self.launch_weight)
 
-        self.sessionBtn.move(10, 10)
+        # Set updates to graph when options or dates change
+        self.lAxBox.currentIndexChanged.connect(self.left_axis_change)
+        self.rAxBox.currentIndexChanged.connect(self.right_axis_change)
+        self.startDateEdit.dateChanged.connect(self.start_date_change)
+        self.endDateEdit.dateChanged.connect(self.end_date_change)
 
     # Redirection functions
     def launch_session(self): self.launch_dialog(SESSION)
@@ -86,6 +90,22 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handle closing application
     def close_app(self): sys.exit()
+
+    # Handle when user changes left axis option
+    def left_axis_change(self):
+        print("left change")
+
+    # Handle when user changes right axis option
+    def right_axis_change(self):
+        print("right change")
+
+    # Handle when user changes start date
+    def start_date_change(self):
+        print("start change")
+
+    # Handle when user changes end date
+    def end_date_change(self):
+        print("end change")
 
     # Testing
     def plot(self):
