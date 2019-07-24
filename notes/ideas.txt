@@ -8,3 +8,5 @@ update/edit button (also using tables?)
 add manual caching from server
     if cached when updating -> update / clear cache
     otherwise cache still valid
+
+    if updating date just need to query for new data (if any)

@@ -9,9 +9,14 @@ import dateutil.relativedelta
 import SessionUILogic, WorkoutUILogic, WeightUILogic
 
 """ Definitions """
+# Dialog control
 SESSION = 0
 WORKOUT = 1
 WEIGHT  = 2
+
+# Plotting control
+EMPTY = 0
+NONEMPTY = 1
 
 """ UI Class """
 # load ui file for main layout
@@ -61,8 +66,12 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Setup button handlers
         self.setup_buttons()
 
-        # Setup up empty graph
-        self.canvas.figure.add_subplot(111).plot()
+        # Setup subplots and set it to empty
+        self.lAx = self.canvas.figure.subplots()
+        self.rAx = self.lAx.twinx()
+
+        # Setup empty graph
+        self.update_plot(EMPTY)
 
     def setup_buttons(self):
         # Set session, workout, and weight buttons
@@ -94,21 +103,30 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     # Handle when user changes left axis option
     def left_axis_change(self):
         print("left change")
+        self.update_plot(EMPTY)
 
     # Handle when user changes right axis option
     def right_axis_change(self):
         print("right change")
+        self.update_plot(NONEMPTY)
 
     # Handle when user changes start date
-    def start_date_change(self):
-        print("start change")
+    def start_date_change(self): print("start change")
 
     # Handle when user changes end date
-    def end_date_change(self):
-        print("end change")
+    def end_date_change(self): print("end change")
 
     # Testing
-    def plot(self):
+    def update_plot(self, type):
+        if type == EMPTY:
+            self.lAx.plot()
+            self.rAx.plot()
+        else:
+            self.lAx.plot([0, 1, 2, 3])
+            self.rAx.plot([3, 2, 1, 0])
+
+        self.canvas.figure.show()
+
         """
         ax = self.canvas.figure.add_subplot(111)
         ax.plot([1, 2, 3, 4])
