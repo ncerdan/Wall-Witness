@@ -5,6 +5,8 @@ from PyQt4 import uic, QtGui, QtCore
 import matplotlib.pyplot as plt
 import dateutil.relativedelta
 
+import random
+
 # Personal
 import SessionUILogic, WorkoutUILogic, WeightUILogic
 
@@ -15,8 +17,11 @@ WORKOUT = 1
 WEIGHT  = 2
 
 # Plotting control
-EMPTY = 0
-NONEMPTY = 1
+CLEAR_BOTH   = 0
+CLEAR_LEFT   = 1
+CLEAR_RIGHT  = 2
+UPDATE_LEFT  = 3
+UPDATE_RIGHT = 4
 
 """ UI Class """
 # load ui file for main layout
@@ -66,12 +71,10 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Setup button handlers
         self.setup_buttons()
 
-        # Setup subplots and set it to empty
+        # Setup subplots and set them to be empty
         self.lAx = self.canvas.figure.subplots()
         self.rAx = self.lAx.twinx()
-
-        # Setup empty graph
-        self.update_plot(EMPTY)
+        self.update_plot(CLEAR_BOTH)
 
     def setup_buttons(self):
         # Set session, workout, and weight buttons
@@ -102,35 +105,54 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handle when user changes left axis option
     def left_axis_change(self):
-        print("left change")
-        self.update_plot(EMPTY)
+        new = self.lAxBox.currentText()
+        if new == "--":
+            self.update_plot(CLEAR_LEFT)
+        else:
+            self.update_plot(UPDATE_LEFT)
 
     # Handle when user changes right axis option
     def right_axis_change(self):
-        print("right change")
-        self.update_plot(NONEMPTY)
+        new = self.rAxBox.currentText()
+        if new == "--":
+            self.update_plot(CLEAR_RIGHT)
+        else:
+            self.update_plot(UPDATE_RIGHT)
 
     # Handle when user changes start date
-    def start_date_change(self): print("start change")
+    def start_date_change(self):
+        print("start change")
 
     # Handle when user changes end date
-    def end_date_change(self): print("end change")
+    def end_date_change(self):
+        print("end change")
 
     # Testing
     def update_plot(self, type):
-        if type == EMPTY:
+        # Clear plotting if desired
+        if type == CLEAR_BOTH:
+            self.lAx.clear()
+            self.rAx.clear()
             self.lAx.plot()
             self.rAx.plot()
-        else:
-            self.lAx.plot([0, 1, 2, 3])
-            self.rAx.plot([3, 2, 1, 0])
+        elif type == CLEAR_LEFT:
+            self.lAx.clear()
+            self.lAx.plot()
+        elif type == CLEAR_RIGHT:
+            self.rAx.clear()
+            self.rAx.plot()
+        elif type == UPDATE_LEFT:
+            self.lAx.clear()
+            new = [random.randint(0,10) for i in range(10)]
+            self.lAx.plot(new, 'b')
+        elif type == UPDATE_RIGHT:
+            self.rAx.clear()
+            new = [random.randint(0,10) for i in range(10)]
+            self.rAx.plot(new, 'r')
 
-        self.canvas.figure.show()
+        self.canvas.figure.canvas.draw()
+        self.canvas.figure.canvas.draw()
 
-        """
-        ax = self.canvas.figure.add_subplot(111)
-        ax.plot([1, 2, 3, 4])
-        """
 
 """  Main Routine """
 def main():
