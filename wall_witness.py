@@ -3,7 +3,7 @@
 import sys
 from PyQt4 import uic, QtGui, QtCore
 import matplotlib.pyplot as plt
-import dateutil.relativedelta
+from datetime import date, timedelta
 
 import random
 
@@ -75,6 +75,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.lAx = self.canvas.figure.subplots()
         self.rAx = self.lAx.twinx()
         self.update_plot(CLEAR_BOTH)
+
+        # Setup list of dates for graph
+        start = self.startDateEdit.date().toPyDate()
+        end   = self.endDateEdit.date().toPyDate()
+        delta = end - start
+        self.dateRange = [start + timedelta(days=i) for i in range(delta.days + 1)]
+        self.lAx.set_xlim(start, end)
+        self.rAx.set_xlim(start, end)
 
     def setup_buttons(self):
         # Set session, workout, and weight buttons
