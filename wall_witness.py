@@ -4,6 +4,7 @@ import sys
 from PyQt4 import uic, QtGui, QtCore
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
+import matplotlib.dates as mdates
 
 import random
 
@@ -47,7 +48,6 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         'Body Weight': 'weight'
     }
 
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -68,21 +68,23 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.startDateEdit.setDate(lastMonth)
         self.endDateEdit.setDate(today)
 
+        # Set DateEdit restrictions
+        self.reapply_date_restrictions()
+
         # Setup button handlers
         self.setup_buttons()
 
-        # Setup subplots and set them to be empty
+        # Setup subplots and set them to be empty (FIX!!! with transparent background?)
         self.lAx = self.canvas.figure.subplots()
         self.rAx = self.lAx.twinx()
         self.update_plot(CLEAR_BOTH)
+        self.canvas.figure.patch.set_facecolor('#FFFFFF')
 
-        # Setup list of dates for graph
-        start = self.startDateEdit.date().toPyDate()
-        end   = self.endDateEdit.date().toPyDate()
-        delta = end - start
-        self.dateRange = [start + timedelta(days=i) for i in range(delta.days + 1)]
-        self.lAx.set_xlim(start, end)
-        self.rAx.set_xlim(start, end)
+        # Setup list of dates for graph and x-axis format
+        self.lAx.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU, interval=2))
+        self.lAx.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+        self.lAx.xaxis.set_minor_locator(mdates.DayLocator())
+        self.update_date_range()
 
     def setup_buttons(self):
         # Set session, workout, and weight buttons
@@ -93,10 +95,10 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Set updates to graph when options or dates change
         self.lAxBox.currentIndexChanged.connect(self.left_axis_change)
         self.rAxBox.currentIndexChanged.connect(self.right_axis_change)
-        self.startDateEdit.dateChanged.connect(self.start_date_change)
-        self.endDateEdit.dateChanged.connect(self.end_date_change)
+        self.startDateEdit.dateChanged.connect(self.update_date_range)
+        self.endDateEdit.dateChanged.connect(self.update_date_range)
 
-    # Redirection functions
+    # Redirection functions for launching dialogs
     def launch_session(self): self.launch_dialog(SESSION)
     def launch_workout(self): self.launch_dialog(WORKOUT)
     def launch_weight(self):  self.launch_dialog(WEIGHT)
@@ -127,17 +129,8 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         else:
             self.update_plot(UPDATE_RIGHT)
 
-    # Handle when user changes start date
-    def start_date_change(self):
-        print("start change")
-
-    # Handle when user changes end date
-    def end_date_change(self):
-        print("end change")
-
-    # Testing
+    # Handle a change to the y-axes
     def update_plot(self, type):
-        # Clear plotting if desired
         if type == CLEAR_BOTH:
             self.lAx.clear()
             self.rAx.clear()
@@ -159,8 +152,26 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             self.rAx.plot(new, 'r')
 
         self.canvas.figure.canvas.draw()
-        self.canvas.figure.canvas.draw()
 
+    # Set x-axis to start and end values from dateEdit's
+    def update_date_range(self):
+        start = self.startDateEdit.date().toPyDate()
+        end   = self.endDateEdit.date().toPyDate()
+        delta = end - start
+        self.dateRange = [start + timedelta(days=i) for i in range(delta.days + 1)]
+        self.lAx.set_xlim(start, end)
+
+        """
+        * here: add check to delta and possibly customize major_locator based on its new value
+        """
+
+        self.canvas.figure.canvas.draw()
+        self.reapply_date_restrictions()
+
+    # Resets max and min dates on dateEdit's to ensure no conflicts
+    def reapply_date_restrictions(self):
+        self.startDateEdit.setMaximumDate(self.endDateEdit.date().toPyDate() + timedelta(days=-1))
+        self.endDateEdit.setMinimumDate(self.startDateEdit.date().toPyDate() + timedelta(days=1))
 
 """  Main Routine """
 def main():
