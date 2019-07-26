@@ -8,3 +8,5 @@ OVERALL
 SPECIFIC
 -allow refined graph plots
     ex: bench press average vs max, sets/reps, etc
+-don't allow start after end or end before start
+-cutomize major_locator based on how many days are shown to prevent label overlap
