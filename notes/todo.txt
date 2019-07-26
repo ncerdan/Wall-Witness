@@ -3,6 +3,7 @@ OVERALL
 -fully check GUI functionality (empty fields and marshalling)
 -add table into GUI to display data (using pyQT) ... use for editting/deleting?
 -use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
+-remove box in entry dialogs
 -pretty up (optional)
 
 SPECIFIC
@@ -10,3 +11,4 @@ SPECIFIC
     ex: bench press average vs max, sets/reps, etc
 -don't allow start after end or end before start
 -cutomize major_locator based on how many days are shown to prevent label overlap
+-remove box in entry dialogs
