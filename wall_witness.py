@@ -36,17 +36,17 @@ class MainUILogic(MainWindowBase, MainWindowUI):
                      'Boulder - High Grade',
                      'Toprope - Average Grade',
                      'Toprope - High Grade',
-                     'Sport   - Average Grade',
-                     'Sport   - High Grade',
-                     'Bench Press - High Weight',
+                     'Sport - Average Grade',
+                     'Sport - High Grade',
+                     'Bench Press - Max Weight',
                      'Bench Press - Average Weight',
                      'Bench Press - Sets',
                      'Bench Press - Reps',
-                     'One-Arm Negative - High Weight',
+                     'One-Arm Negative - Max Weight',
                      'One-Arm Negative - Average Weight',
                      'One-Arm Negative - Sets',
                      'One-Arm Negative - Reps',
-                     'Pistol Squat - High Weight',
+                     'Pistol Squat - Max Weight',
                      'Pistol Squat - Average Weight',
                      'Pistol Squat - Sets',
                      'Pistol Squat - Reps',
@@ -57,17 +57,17 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         'Boulder - High Grade' :             'SBhiGr',
         'Toprope - Average Grade':           'STavGr',
         'Toprope - High Grade':              'SThiGr',
-        'Sport   - Average Grade':           'SSavGr',
-        'Sport   - High Grade':              'SShiGr',
-        'Bench Press - High Weight':         'WBhiWt',
+        'Sport - Average Grade':           'SSavGr',
+        'Sport - High Grade':              'SShiGr',
+        'Bench Press - Max Weight':          'WBhiWt',
         'Bench Press - Average Weight':      'WBavWt',
         'Bench Press - Sets':                'WBsets',
         'Bench Press - Reps':                'WBreps',
-        'One-Arm Negative - High Weight':    'WOhiWt',
+        'One-Arm Negative - Max Weight':     'WOhiWt',
         'One-Arm Negative - Average Weight': 'WOavWt',
         'One-Arm Negative - Sets':           'WOsets',
         'One-Arm Negative - Reps':           'WOreps',
-        'Pistol Squat - High Weight':        'WPhiWt',
+        'Pistol Squat - Max Weight':         'WPhiWt',
         'Pistol Squat - Average Weight':     'WPavWt',
         'Pistol Squat - Sets':               'WPsets',
         'Pistol Squat - Reps':               'WPreps',
@@ -168,22 +168,20 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         elif type == CLEAR_RIGHT:
             self.rAx.clear()
             self.rAx.plot()
-        elif type == UPDATE_LEFT or type == UPDATE_RIGHT:
-            if type == UPDATE_LEFT:
-                self.lAx.clear()
-                type = self.marshalled_options[self.lAxBox.currentText()]
-            else:
-                self.rAx.clear()
-                type = self.marshalled_options[self.rAxBox.currentText()]
-
+        elif type == UPDATE_LEFT:
+            self.lAx.clear()
+            type = self.marshalled_options[self.lAxBox.currentText()]
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
-            x, y = db_ops.get_data_points(start, end, type)
-
-            if type == UPDATE_LEFT:
-                self.lAx.plot(x, y, 'b')
-            else:
-                self.rAx.plot(x, y, 'b')
+            x, y  = db_ops.get_data_points(start, end, type)
+            self.lAx.plot(x, y, 'b')
+        elif type == UPDATE_RIGHT:
+            self.rAx.clear()
+            type = self.marshalled_options[self.rAxBox.currentText()]
+            start = self.startDateEdit.dateTime().toPyDateTime()
+            end   = self.endDateEdit.dateTime().toPyDateTime()
+            x, y  = db_ops.get_data_points(start, end, type)
+            self.rAx.plot(x, y, 'r')
 
         self.canvas.figure.canvas.draw()
 
@@ -191,11 +189,11 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     def update_date_range(self):
         start = self.startDateEdit.dateTime().toPyDateTime()
         end   = self.endDateEdit.dateTime().toPyDateTime()
-        delta = end - start
-        self.dateRange = [start + timedelta(days=i) for i in range(delta.days + 1)]
         self.lAx.set_xlim(start, end)
 
         """
+        delta = end - start
+
         * here: add check to delta and possibly customize major_locator based on its new value
         """
 

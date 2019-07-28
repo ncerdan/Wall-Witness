@@ -225,12 +225,20 @@ def get_data_points(start, end, desired):
         cursor = col.find({ 'date': { '$gte': start, '$lte': end }})
         key = 'wght'
 
-    # Create tuple of lists to return
-    x = []
-    y = []
+    # Create list of tuples to sort
+    list_of_tuples = []
     for doc in cursor:
         date = doc['date']
         data = doc[key]
+        list_of_tuples.append((date, data))
+
+    # Sort list based on date element in tuples
+    sorted_list = sorted(list_of_tuples, key=lambda tup: tup[0])
+
+    # Split into lists to return
+    x = []
+    y = []
+    for (date, data) in sorted_list:
         x.append(date)
         y.append(data)
 
