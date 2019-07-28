@@ -103,7 +103,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Get data from inputs
         type = str(self.typeBox.currentText())
-        date = self.dateEdit.date().toPyDate()
+        date = self.dateEdit.dateTime().toPyDateTime()
         sets = self.setsEdit.text()
         reps = self.repsEdit.text()
         avWt = float(self.avWtEdit.text())

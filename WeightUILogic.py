@@ -37,7 +37,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
 
         # Setup button connections
         self.setup_buttons()
-        
+
         """   TESTING   """
         self.toggleDB = QtGui.QCheckBox(self)
         self.toggleDB.move(50, 250)
@@ -58,7 +58,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         # Get data from inputs
         weight = float(self.weightEdit.text())
         units =  str(self.unitsBox.currentText())
-        date =   self.dateEdit.date().toPyDate()
+        date =   self.dateEdit.dateTime().toPyDateTime()
 
         # Possibly convert weight from kg -> lbs
         if units == 'kg':

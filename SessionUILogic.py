@@ -146,7 +146,7 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         # Get data from inputs
         type = str(self.typeBox.currentText())
         envr = str(self.envrBox.currentText())
-        date = self.dateEdit.date().toPyDate()
+        date = self.dateEdit.dateTime().toPyDateTime()
         locn = self.locnEdit.text()
         durn = float(self.durnEdit.text())
         dnUt = str(self.durnUnitsBox.currentText())
