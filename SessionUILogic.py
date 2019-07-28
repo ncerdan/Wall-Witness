@@ -88,13 +88,6 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
 
         self.setup_buttons()
 
-        """   TESTING   """
-        self.toggleDB = QtGui.QCheckBox(self)
-        self.toggleDB.move(50, 250)
-        self.toggleDB.setChecked(False)
-        self.toggleDB.show()
-        """ END TESTING """
-
     def setup_buttons(self):
         self.submitBtn.clicked.connect(self.submit_entry)
         self.cancelBtn.clicked.connect(self.close_dialog)
@@ -166,28 +159,10 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         # Round duration entry
         durn = round(durn, 2)
 
-        """   TESTING
-        print("type: " + type)
-        print("envr: " + envr)
-        print("date: " + str(date))
-        print("locn: " + locn)
-        print("durn: " + str(durn))
-        print("dnUt: " + dnUt)
-        print("avGr: " + str(avGr))
-        print("hiGr: " + str(hiGr))
-        print("note: " + note)
-         END TESTING """
-
         # Add new entry into the database
-        """   TESTING   """
-        if self.toggleDB.isChecked():
-            print('sent to DB')
-            """ END TESTING """
-            db_ops.add_session(type, envr, avGr, hiGr, date, durn, locn, note)
+        db_ops.add_session(type, envr, avGr, hiGr, date, durn, locn, note)
 
         # Close dialog
         self.close_dialog()
 
     def close_dialog(self): self.done(1)
-
-

@@ -38,13 +38,6 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         # Setup button connections
         self.setup_buttons()
 
-        """   TESTING   """
-        self.toggleDB = QtGui.QCheckBox(self)
-        self.toggleDB.move(50, 250)
-        self.toggleDB.setChecked(False)
-        self.toggleDB.show()
-        """ END TESTING """
-
     def setup_buttons(self):
         self.submitBtn.clicked.connect(self.submit_entry)
         self.cancelBtn.clicked.connect(self.close_dialog)
@@ -68,11 +61,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         weight = round(weight, 1)
 
         # Add new entry into the database
-        """   TESTING   """
-        if self.toggleDB.isChecked():
-            print('sent to DB')
-            """ END TESTING """
-            db_ops.add_weight(date, weight)
+        db_ops.add_weight(date, weight)
 
         # Close dialog
         self.close_dialog()
