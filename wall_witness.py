@@ -9,7 +9,7 @@ import matplotlib.dates as mdates
 import random
 
 # Personal
-import SessionUILogic, WorkoutUILogic, WeightUILogic
+import SessionUILogic, WorkoutUILogic, WeightUILogic, db_ops
 
 """ Definitions """
 # Dialog control
@@ -32,20 +32,46 @@ MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 class MainUILogic(MainWindowBase, MainWindowUI):
 
     axOptionsList = ['--',
-                     'Session - Average Grade',
-                     'Session - High Grade',
-                     'Workout - Bench Press',
-                     'Workout - One-Arm Negative',
-                     'Workout - Pistol Squat',
+                     'Boulder - Average Grade',
+                     'Boulder - High Grade',
+                     'Toprope - Average Grade',
+                     'Toprope - High Grade',
+                     'Sport   - Average Grade',
+                     'Sport   - High Grade',
+                     'Bench Press - High Weight',
+                     'Bench Press - Average Weight',
+                     'Bench Press - Sets',
+                     'Bench Press - Reps',
+                     'One-Arm Negative - High Weight',
+                     'One-Arm Negative - Average Weight',
+                     'One-Arm Negative - Sets',
+                     'One-Arm Negative - Reps',
+                     'Pistol Squat - High Weight',
+                     'Pistol Squat - Average Weight',
+                     'Pistol Squat - Sets',
+                     'Pistol Squat - Reps',
                      'Body Weight']
 
     marshalled_options = {
-        'Session - Average Grade': 'avGr',
-        'Session - High Grade': 'hiGr',
-        'Workout - Bench Press': 'bench',
-        'Workout - One-Arm Negative': 'neg',
-        'Workout - Pistol Squat': 'pistol',
-        'Body Weight': 'weight'
+        'Boulder - Average Grade':           'SBavGr',
+        'Boulder - High Grade' :             'SBhiGr',
+        'Toprope - Average Grade':           'STavGr',
+        'Toprope - High Grade':              'SThiGr',
+        'Sport   - Average Grade':           'SSavGr',
+        'Sport   - High Grade':              'SShiGr',
+        'Bench Press - High Weight':         'WBhiWt',
+        'Bench Press - Average Weight':      'WBavWt',
+        'Bench Press - Sets':                'WBsets',
+        'Bench Press - Reps':                'WBreps',
+        'One-Arm Negative - High Weight':    'WOhiWt',
+        'One-Arm Negative - Average Weight': 'WOavWt',
+        'One-Arm Negative - Sets':           'WOsets',
+        'One-Arm Negative - Reps':           'WOreps',
+        'Pistol Squat - High Weight':        'WPhiWt',
+        'Pistol Squat - Average Weight':     'WPavWt',
+        'Pistol Squat - Sets':               'WPsets',
+        'Pistol Squat - Reps':               'WPreps',
+        'Body Weight':                       'Bwght'
     }
 
     def __init__(self, parent=None):
@@ -142,21 +168,29 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         elif type == CLEAR_RIGHT:
             self.rAx.clear()
             self.rAx.plot()
-        elif type == UPDATE_LEFT:
-            self.lAx.clear()
-            new = [random.randint(0,10) for i in range(10)]
-            self.lAx.plot(new, 'b')
-        elif type == UPDATE_RIGHT:
-            self.rAx.clear()
-            new = [random.randint(0,10) for i in range(10)]
-            self.rAx.plot(new, 'r')
+        elif type == UPDATE_LEFT or type == UPDATE_RIGHT:
+            if type == UPDATE_LEFT:
+                self.lAx.clear()
+                type = self.marshalled_options[self.lAxBox.currentText()]
+            else:
+                self.rAx.clear()
+                type = self.marshalled_options[self.rAxBox.currentText()]
+
+            start = self.startDateEdit.dateTime().toPyDateTime()
+            end   = self.endDateEdit.dateTime().toPyDateTime()
+            x, y = db_ops.get_data_points(start, end, type)
+
+            if type == UPDATE_LEFT:
+                self.lAx.plot(x, y, 'b')
+            else:
+                self.rAx.plot(x, y, 'b')
 
         self.canvas.figure.canvas.draw()
 
     # Set x-axis to start and end values from dateEdit's
     def update_date_range(self):
-        start = self.startDateEdit.date().toPyDate()
-        end   = self.endDateEdit.date().toPyDate()
+        start = self.startDateEdit.dateTime().toPyDateTime()
+        end   = self.endDateEdit.dateTime().toPyDateTime()
         delta = end - start
         self.dateRange = [start + timedelta(days=i) for i in range(delta.days + 1)]
         self.lAx.set_xlim(start, end)

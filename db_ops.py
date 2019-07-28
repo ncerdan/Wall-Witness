@@ -119,14 +119,14 @@ def add_weight(date, wght):
     weights.insert_one(to_insert)
 
     #check if it is a new pr
-    check_new_pr('weight', wght_i, date)
+    check_new_pr('wght', wght_i, date)
 
 # Updating Documents
 def check_new_pr(type, new_data, date):
     """
     Checks if new entry sets a new pr, and if it does updates it.
     Args:
-        type (string):            type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol', 'weight'],
+        type (string):            type of pr ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol', 'wght'],
         new_data (float):         new grade/weight pr,
         date (datetime.datetime): date of new pr.
     Returns:
@@ -174,28 +174,64 @@ def del_weight():
     return -999
 
 # Querying Data
-def get_data_points(start, end, type):
+def get_data_points(start, end, desired):
     """
     Gets type data between start and end dates.
     Args:
         start (datetime.datetime): earliest date to query from
         end (datetime.datetime):   latest date to query from
-        type (string):             what data to query ['avGr', 'hiGr', 'bench', 'neg', 'pistol', 'weight']
-                                           (wall_witness. marshalled_data.values())
+        desired (string):          what data to query ['SBhiGr', 'SBavGr', 'SThiGr', 'STavGr', 'SShiGr', 'SSavGr',
+                                                       'WBhiWt', 'WBavWt', 'WBsets', 'WBreps', 'WOhiWt', 'WOavWt',
+                                                       'WOsets', 'WOreps', 'WPhiWt', 'WPavWt', 'WPsets', 'WPreps',
+                                                       'Bwght']  =  (wall_witness. marshalled_data.values())
     Returns:
-        List of (datetime.datetime, float) tuples for graphing
+        ([datetime.datetime], [float]) for graphing
     """
-
-    if type == 'avGr' or type == 'hiGr':
+    # Session query
+    if desired[0] == 'S':
         col = sessions
-    elif type == 'bench' or type == 'neg' or type == 'pistol':
+        if desired[1] == 'B':
+            type = 'boulder'
+        elif desired[1] == 'T':
+            type = 'toprope'
+        else:
+            type = 'sport'
+
+        cursor = col.find({
+            'date': {'$gte': start, '$lte': end},
+            'type': {'$eq': type}
+        })
+        key = desired[2:]
+
+    # Workout query
+    elif desired[0] == 'W':
         col = workouts
+        if desired[1] == 'B':
+            type = 'bench'
+        elif desired[1] == 'O':
+            type = 'neg'
+        else:
+            type = 'pistol'
+
+        cursor = col.find({
+            'date': {'$gte': start, '$lte': end},
+            'type': {'$eq': type}
+        })
+        key = desired[2:]
+
+    # Bodyweight query
     else:
         col = weights
+        cursor = col.find({ 'date': { '$gte': start, '$lte': end }})
+        key = 'wght'
 
-    cursor = col.find({ 'date': { '$gte': start, '$lte': end }})
-    res = []
-
+    # Create tuple of lists to return
+    x = []
+    y = []
     for doc in cursor:
-        print(doc)
+        date = doc['date']
+        data = doc[key]
+        x.append(date)
+        y.append(data)
 
+    return x, y
