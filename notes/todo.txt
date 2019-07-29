@@ -6,6 +6,6 @@ OVERALL
 -pretty up (optional)
 
 SPECIFIC
--allow refined graph plots
-    ex: in vs out climbing
+-allow refined session graph plots
+    ex: optional in/out filter, location filter
 -cutomize major_locator based on how many days are shown to prevent label overlap
