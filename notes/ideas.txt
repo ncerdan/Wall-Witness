@@ -6,7 +6,7 @@ show tables of data on right w tabs above to choose collection viewing (for edit
 delete functionality (using tables?)
 update/edit button (also using tables?)
 add manual caching from server
-    if cached when updating -> update / clear cache
+    if cached when updating/adding entry -> update / clear cache (then relod graph?)
     otherwise cache still valid
 
     if updating date just need to query for new data (if any)

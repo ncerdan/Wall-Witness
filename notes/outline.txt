@@ -5,7 +5,7 @@ JSON Data Structure:
 {
     'type': string = 'boulder', 'toprope', or 'sport',
     'envr': string = 'in' or 'out',
-    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
+    'date': datetime.datetime() objects = date of session,
     'locn': string = where session was,
     'durn': float = # of hours,
     'avGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                         (convert letters of non-B to decimal values)
@@ -21,7 +21,7 @@ JSON Data Structure:
 2 - Weight Training Session:
 {
     'type': string = 'bench', 'neg', or 'pistol',
-    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
+    'date': datetime.datetime() objects = date of session,
     'sets': int = # of sets,
     'reps': float = # of reps/set, (float for av)
     'avWt': float = average weight,
@@ -33,7 +33,7 @@ JSON Data Structure:
 -----
 3 - Body Weight Tracking:
 {
-    'date': datetime.date().strftime("%Y-%m-%d") objects = date of session,
+    'date': datetime.datetime() objects = date of session,
     'wght': float = weight in lbs (allow conversion to kgs in UI)
 }
     -trivial
@@ -44,6 +44,6 @@ JSON Data Structure:
 {
     'type': string = 'boulder', 'toprope', 'sport', 'bench', 'neg', or 'pistol'
     'rcrd': float = grade/weight of pr,
-    'date': datetime.date().strftime("%Y-%m-%d") objects = date of getting pr
+    'date': datetime.datetime() objects = date of getting pr
 }
     -one entry per type. only update entries once theyre first put in.
