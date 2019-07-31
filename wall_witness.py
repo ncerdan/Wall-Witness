@@ -6,10 +6,9 @@ import matplotlib.pyplot as plt
 from datetime import date, timedelta
 import matplotlib.dates as mdates
 
-import random
-
 # Personal
-import SessionUILogic, WorkoutUILogic, WeightUILogic, db_ops
+import SessionUILogic, WorkoutUILogic, WeightUILogic
+import db_ops
 
 """ Definitions """
 # Dialog control
@@ -25,13 +24,13 @@ UPDATE_LEFT  = 3
 UPDATE_RIGHT = 4
 
 # Granularity control
-DAILY = 0
-WEEKLY = 1
-BIWEEKLY = 2
-MONTHLY = 3
-BIMONTHLY = 4
+DAILY      = 0
+WEEKLY     = 1
+BIWEEKLY   = 2
+MONTHLY    = 3
+BIMONTHLY  = 4
 SIXMONTHLY = 5
-YEARLY = 6
+YEARLY     = 6
 
 """ UI Class """
 # load ui file for main layout
@@ -148,18 +147,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     # Handle when user changes left axis option
     def left_axis_change(self):
         new = self.lAxBox.currentText()
-        if new == "--":
-            self.update_plot(CLEAR_LEFT)
-        else:
-            self.update_plot(UPDATE_LEFT)
+        if new == "--": self.update_plot(CLEAR_LEFT)
+        else:           self.update_plot(UPDATE_LEFT)
 
     # Handle when user changes right axis option
     def right_axis_change(self):
         new = self.rAxBox.currentText()
-        if new == "--":
-            self.update_plot(CLEAR_RIGHT)
-        else:
-            self.update_plot(UPDATE_RIGHT)
+        if new == "--": self.update_plot(CLEAR_RIGHT)
+        else:           self.update_plot(UPDATE_RIGHT)
 
     # Handle a change to the y-axes
     def update_plot(self, type):
@@ -176,14 +171,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             self.rAx.plot()
         elif type == UPDATE_LEFT:
             self.lAx.clear()
-            type = self.marshalled_options[self.lAxBox.currentText()]
+            type  = self.marshalled_options[self.lAxBox.currentText()]
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             x, y  = db_ops.get_data_points(start, end, type)
             self.lAx.plot(x, y, 'b')
         elif type == UPDATE_RIGHT:
             self.rAx.clear()
-            type = self.marshalled_options[self.rAxBox.currentText()]
+            type  = self.marshalled_options[self.rAxBox.currentText()]
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             x, y  = db_ops.get_data_points(start, end, type)
