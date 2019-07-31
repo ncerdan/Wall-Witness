@@ -1,13 +1,15 @@
 OVERALL
--fully check db_ops (inserting and checking prs)
--fully check GUI functionality (empty fields and marshalling)
--add table into GUI to display data (using pyQT) ... use for editting/deleting?
--use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
--pretty up (optional)
+- fully check db_ops (inserting and checking prs)
+- fully check GUI functionality (empty fields and marshalling)
+- add table into GUI to display data (using pyQT) ... use for editting/deleting?
+- use matplotlib / more pyQT to have user select data w menu and have it displayed in graph
+- caching?
+- pretty up (optional)
 
 SPECIFIC
--allow refined session graph plots
+- allow refined session graph plots
     ex: optional in/out filter, location filter
--cutomize major_locator based on how many days are shown to prevent label overlap
--change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
--x-axis labels good? (m/d and m/y too similar?)
+- change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
+- x-axis labels good? (m/d and m/y too similar?)
+- add reset button for dates in case user looses data out of window
+
