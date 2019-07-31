@@ -139,9 +139,9 @@ def check_new_pr(type, new_data, date):
 
     #compare it to the new weight/grade
     if new_data > curr_rd:
-        upd_pr(type, new_data, date)
+        update_pr(type, new_data, date)
 
-def upd_pr(type, rcrd, date):
+def update_pr(type, rcrd, date):
     """
     Updates correct pr with new date and record.
     Args:
