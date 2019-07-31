@@ -24,6 +24,15 @@ CLEAR_RIGHT  = 2
 UPDATE_LEFT  = 3
 UPDATE_RIGHT = 4
 
+# Granularity control
+DAILY = 0
+WEEKLY = 1
+BIWEEKLY = 2
+MONTHLY = 3
+BIMONTHLY = 4
+SIXMONTHLY = 5
+YEARLY = 6
+
 """ UI Class """
 # load ui file for main layout
 MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
@@ -106,10 +115,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.update_plot(CLEAR_BOTH)
         self.canvas.figure.patch.set_facecolor('#FFFFFF')
 
-        # Setup list of dates for graph and x-axis format
-        self.lAx.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU, interval=2))
-        self.lAx.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
-        self.lAx.xaxis.set_minor_locator(mdates.DayLocator())
+        # Setup x-axis format
         self.update_date_range()
 
     def setup_buttons(self):
@@ -183,7 +189,40 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             x, y  = db_ops.get_data_points(start, end, type)
             self.rAx.plot(x, y, 'r')
 
+        self.update_date_range()
         self.canvas.figure.canvas.draw()
+
+    # Set x-axis granularity to avoid overlap
+    def set_xaxis_granularity(self, granularity):
+        xaxis = self.lAx.xaxis
+
+        if granularity == DAILY:
+            xaxis.set_major_locator(mdates.DayLocator())
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+        elif granularity == WEEKLY:
+            xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+            xaxis.set_minor_locator(mdates.DayLocator())
+        elif granularity == BIWEEKLY:
+            xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU, interval=2))
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+            xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
+        elif granularity == MONTHLY:
+            xaxis.set_major_locator(mdates.MonthLocator())
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_minor_locator(mdates.DayLocator(bymonthday=15))
+        elif granularity == BIMONTHLY:
+            xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_minor_locator(mdates.DayLocator(bymonthday=1))
+        elif granularity == SIXMONTHLY:
+            xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_minor_locator(mdates.MonthLocator())
+        elif granularity == YEARLY:
+            xaxis.set_major_locator(mdates.YearLocator())
+            xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+            xaxis.set_minor_locator(mdates.MonthLocator(interval=3))
 
     # Set x-axis to start and end values from dateEdit's
     def update_date_range(self):
@@ -191,11 +230,17 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         end   = self.endDateEdit.dateTime().toPyDateTime()
         self.lAx.set_xlim(start, end)
 
-        """
+        # Check new date delta and set new x-axis granularity
         delta = end - start
+        days_delta = delta.days
 
-        * here: add check to delta and possibly customize major_locator based on its new value
-        """
+        if days_delta > 1200:  self.set_xaxis_granularity(YEARLY)
+        elif days_delta > 525: self.set_xaxis_granularity(SIXMONTHLY)
+        elif days_delta > 220: self.set_xaxis_granularity(BIMONTHLY)
+        elif days_delta > 99:  self.set_xaxis_granularity(MONTHLY)
+        elif days_delta > 54:  self.set_xaxis_granularity(BIWEEKLY)
+        elif days_delta > 9:   self.set_xaxis_granularity(WEEKLY)
+        else:                  self.set_xaxis_granularity(DAILY)
 
         self.canvas.figure.canvas.draw()
         self.reapply_date_restrictions()
