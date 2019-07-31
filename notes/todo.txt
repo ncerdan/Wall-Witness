@@ -10,3 +10,4 @@ SPECIFIC
     ex: optional in/out filter, location filter
 -cutomize major_locator based on how many days are shown to prevent label overlap
 -change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
+-x-axis labels good? (m/d and m/y too similar?)
