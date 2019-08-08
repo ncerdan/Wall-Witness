@@ -129,6 +129,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.startDateEdit.dateChanged.connect(self.update_date_range)
         self.endDateEdit.dateChanged.connect(self.update_date_range)
 
+        # Set calendar reset button handler
+        self.resetBtn.clicked.connect(self.reset_dates)
+
     # Redirection functions for launching dialogs
     def launch_session(self): self.launch_dialog(SESSION)
     def launch_workout(self): self.launch_dialog(WORKOUT)
@@ -239,6 +242,15 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
         self.canvas.figure.canvas.draw()
         self.reapply_date_restrictions()
+
+    # Set dates back to original default values
+    def reset_dates(self):
+        today = QtCore.QDate.currentDate()
+        lastMonth = today.addMonths(-1)
+        self.startDateEdit.setDate(lastMonth)
+        self.endDateEdit.setDate(today)
+
+        self.update_date_range()
 
     # Resets max and min dates on dateEdit's to ensure no conflicts
     def reapply_date_restrictions(self):
