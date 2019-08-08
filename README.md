@@ -8,4 +8,4 @@ Backend:  pymongo (Python + MongoDB)
 Frontend: PyQT, matplotlib's pyplot
 
 ### Cloud Hosting
-My MongoDB database is hosted via MongoDB's Atlas M0 feature, and connected to via pymongo in the application.
+My MongoDB database is hosted via MongoDB's Atlas M0 feature, and connected via pymongo in the application.
