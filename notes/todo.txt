@@ -10,4 +10,6 @@ SPECIFIC
 - allow refined session graph plots
     ex: optional in/out filter, location filter
 - change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
-- x-axis labels good? (m/d and m/y too similar?)
+- x-axis labels good? (recheck granularities)
+    - 10 days is bad
+- move lists to seperate file to import (staticData.py ?)

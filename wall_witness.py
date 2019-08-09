@@ -173,21 +173,21 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             self.rAx.clear()
             self.rAx.plot()
         elif type == UPDATE_LEFT:
-            self.lAx.clear()
-            type  = self.marshalled_options[self.lAxBox.currentText()]
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
+            type  = self.marshalled_options[self.lAxBox.currentText()]
             x, y  = db_ops.get_data_points(start, end, type)
+            self.lAx.clear()
             self.lAx.plot(x, y, 'b')
         elif type == UPDATE_RIGHT:
-            self.rAx.clear()
-            type  = self.marshalled_options[self.rAxBox.currentText()]
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
+            type  = self.marshalled_options[self.rAxBox.currentText()]
             x, y  = db_ops.get_data_points(start, end, type)
+            self.rAx.clear()
             self.rAx.plot(x, y, 'r')
 
-        self.update_date_range()
+        self.set_date_range()
         self.canvas.figure.canvas.draw()
 
     # Set x-axis granularity to avoid overlap
@@ -196,26 +196,26 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
         if granularity == DAILY:
             xaxis.set_major_locator(mdates.DayLocator())
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
         elif granularity == WEEKLY:
             xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
             xaxis.set_minor_locator(mdates.DayLocator())
         elif granularity == BIWEEKLY:
             xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU, interval=2))
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
             xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
         elif granularity == MONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator())
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.DayLocator(bymonthday=15))
         elif granularity == BIMONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.DayLocator(bymonthday=1))
         elif granularity == SIXMONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator(interval=6))
-            xaxis.set_major_formatter(mdates.DateFormatter('%m/%y'))
+            xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.MonthLocator())
         elif granularity == YEARLY:
             xaxis.set_major_locator(mdates.YearLocator())
@@ -223,7 +223,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             xaxis.set_minor_locator(mdates.MonthLocator(interval=3))
 
     # Set x-axis to start and end values from dateEdit's
-    def update_date_range(self):
+    def set_date_range(self):
         start = self.startDateEdit.dateTime().toPyDateTime()
         end   = self.endDateEdit.dateTime().toPyDateTime()
         self.lAx.set_xlim(start, end)
@@ -239,6 +239,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         elif days_delta > 54:  self.set_xaxis_granularity(BIWEEKLY)
         elif days_delta > 9:   self.set_xaxis_granularity(WEEKLY)
         else:                  self.set_xaxis_granularity(DAILY)
+
+    # Update x-axis to start and end values from dateEdit's
+    def update_date_range(self):
+        self.set_date_range()
+
+        # Temporary - inefficient bc can query all data again --> use custom cache?
+        self.left_axis_change()
+        self.right_axis_change()
 
         self.canvas.figure.canvas.draw()
         self.reapply_date_restrictions()
