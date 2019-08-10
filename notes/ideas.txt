@@ -4,6 +4,7 @@ set max and min value of axis to be +/- 5(?) of max/min values respectively
 show tables of data on right w tabs above to choose collection viewing (for editing?)
 delete functionality (using tables?)
 update/edit button (also using tables?)
+transition animations for new graphs, dates, or windows?
 
 add manual caching from server
     if cached when updating/adding entry -> update / clear cache (then reload graph?)
