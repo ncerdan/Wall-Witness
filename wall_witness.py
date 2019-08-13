@@ -8,6 +8,7 @@ import matplotlib.dates as mdates
 
 # Personal
 import SessionUILogic, WorkoutUILogic, WeightUILogic
+import cache
 import db_ops
 import constants
 
@@ -42,6 +43,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+
+        # Initialize cache object
+        self.cache = cache.Cache()
 
         # Setup exit action and shortcut
         self.actionExit.triggered.connect(self.close_app)
