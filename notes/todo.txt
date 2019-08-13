@@ -1,9 +1,9 @@
 OVERALL
 - fully check db_ops (inserting and checking prs)
 - fully check GUI functionality (empty fields and marshalling)
-- add table into GUI to display data (using pyQT) ... use for editting/deleting?
 - fully check data visualization and dates functionality
 - personalized caching system to save stored data
+- add table into GUI to display data (using pyQT) ... use for editting/deleting?
 - pretty up (optional)
 
 SPECIFIC

@@ -7,7 +7,7 @@ update/edit button (also using tables?)
 refersh button for graph window?
 transition animations for new graphs, dates, or windows?
 
-add manual caching from server
+add manual caching from server (IP)
     if cached when updating/adding entry -> update / clear cache (then reload graph?)
     otherwise cache still valid -- no need to change
 
