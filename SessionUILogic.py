@@ -4,6 +4,7 @@ from PyQt4 import QtGui, uic, QtCore
 
 # Personal
 import db_ops
+import constants
 
 """ UI Class """
 # load ui file for main layout
@@ -11,41 +12,6 @@ SessionDialogUI, SessionDialogBase = uic.loadUiType("ui/sessionDialog.ui")
 
 # use loaded ui file in ui logic class
 class SessionUILogic(SessionDialogBase, SessionDialogUI):
-
-    typesList = ['--', 'Boulder', 'Top-Rope', 'Sport']
-    marshalled_type = {
-        'Boulder': 'boulder',
-        'Top-Rope': 'toprope',
-        'Sport': 'sport'
-    }
-
-    envrList  = ['--', 'Indoors', 'Outdoors']
-    marshalled_envr = {
-        'Indoors': 'in',
-        'Outdoors': 'out'
-    }
-
-    unitsList = ['hr', 'min']
-
-    bldrList  = ['--', 'V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12']
-    ropeList  = ['--', '5.9',
-                       '5.10a', '5.10b', '5.10c', '5.10d',
-                       '5.11a', '5.11b', '5.11c', '5.11d',
-                       '5.12a', '5.12b', '5.12c', '5.12d',
-                       '5.13a', '5.13b', '5.13c', '5.13d']
-    marshalled_grades = {
-        # Bouldering grade mappings
-        'V0': 0, 'V1': 1, 'V2': 2,  'V3': 3,   'V4': 4,   'V5': 5,   'V6': 6,
-        'V7': 7, 'V8': 8, 'V9': 9, 'V10': 10, 'V11': 11, 'V12': 12, 'V13': 13,
-
-        # Rope grade mappings
-          '5.9': 9.00,
-        '5.10a': 10.00, '5.10b': 10.25, '5.10c': 10.50, '5.10d': 10.75,
-        '5.11a': 11.00, '5.11b': 11.25, '5.11c': 11.50, '5.11d': 11.75,
-        '5.12a': 12.00, '5.12b': 12.25, '5.12c': 12.50, '5.12d': 12.75,
-        '5.13a': 13.00, '5.13b': 13.25, '5.13c': 13.50, '5.13d': 13.75
-    }
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
@@ -53,11 +19,11 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
 
         # Add type options
         self.typeBox.clear()
-        self.typeBox.addItems(self.typesList)
+        self.typeBox.addItems(constants.session_types_ist)
 
         # Add environment options
         self.envrBox.clear()
-        self.envrBox.addItems(self.envrList)
+        self.envrBox.addItems(constants.session_envr_list)
 
         # Define default date for calendar as system date
         self.dateEdit.setDate(QtCore.QDate.currentDate())
@@ -70,9 +36,9 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         self.durnEdit.setValidator(floatValidator)
         self.durnEdit.setPlaceholderText('0')
 
-        # Add unit options
+        # Add duration unit options
         self.durnUnitsBox.clear()
-        self.durnUnitsBox.addItems(self.unitsList)
+        self.durnUnitsBox.addItems(constants.time_units_list)
 
         # Add avGr options
         self.avGrBox.clear()
@@ -102,9 +68,9 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
             self.hiGrBox.addItem('--')
             return
         elif new_type == 'Boulder':
-            to_add = self.bldrList
+            to_add = constants.bldr_grade_list
         else:
-            to_add = self.ropeList
+            to_add = constants.rope_grade_list
 
         self.avGrBox.clear()
         self.hiGrBox.clear()
@@ -148,10 +114,10 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         note = self.noteEdit.toPlainText()
 
         # Marshall data that will be represeneted in DB differently
-        type = self.marshalled_type[type]
-        envr = self.marshalled_envr[envr]
-        avGr = float(self.marshalled_grades[avGr])
-        hiGr = float(self.marshalled_grades[hiGr])
+        type = constants.marshalled_session_types[type]
+        envr = constants.marshalled_session_envr[envr]
+        avGr = float(constants.marshalled_grades[avGr])
+        hiGr = float(constants.marshalled_grades[hiGr])
 
         # Possibly convert duration from min -> hr
         if dnUt == 'min': durn = durn / 60

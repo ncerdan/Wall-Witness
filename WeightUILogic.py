@@ -4,6 +4,7 @@ from PyQt4 import QtGui, uic, QtCore
 
 # Personal
 import db_ops
+import constants
 
 """ UI Class """
 # load ui file for main layout
@@ -11,9 +12,6 @@ WeightDialogUI, WeightDialogBase = uic.loadUiType("ui/weightDialog.ui")
 
 # use loaded ui file in ui logic class
 class WeightUILogic(WeightDialogBase, WeightDialogUI):
-
-    weightUnitsList = ['lbs', 'kg']
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
@@ -26,7 +24,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
 
         # Add units options
         self.unitsBox.clear()
-        self.unitsBox.addItems(self.weightUnitsList)
+        self.unitsBox.addItems(constants.weight_units_list)
 
         # Define default date for calendar as system date
         self.dateEdit.setDate(QtCore.QDate.currentDate())

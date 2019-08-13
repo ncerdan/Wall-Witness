@@ -9,6 +9,7 @@ import matplotlib.dates as mdates
 # Personal
 import SessionUILogic, WorkoutUILogic, WeightUILogic
 import db_ops
+import constants
 
 """ Definitions """
 # Dialog control
@@ -38,50 +39,6 @@ MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 
 # use loaded ui file in ui logic class
 class MainUILogic(MainWindowBase, MainWindowUI):
-
-    axOptionsList = ['--',
-                     'Boulder - Average Grade',
-                     'Boulder - High Grade',
-                     'Toprope - Average Grade',
-                     'Toprope - High Grade',
-                     'Sport - Average Grade',
-                     'Sport - High Grade',
-                     'Bench Press - Max Weight',
-                     'Bench Press - Average Weight',
-                     'Bench Press - Sets',
-                     'Bench Press - Reps',
-                     'One-Arm Negative - Max Weight',
-                     'One-Arm Negative - Average Weight',
-                     'One-Arm Negative - Sets',
-                     'One-Arm Negative - Reps',
-                     'Pistol Squat - Max Weight',
-                     'Pistol Squat - Average Weight',
-                     'Pistol Squat - Sets',
-                     'Pistol Squat - Reps',
-                     'Body Weight']
-
-    marshalled_options = {
-        'Boulder - Average Grade':           'SBavGr',
-        'Boulder - High Grade' :             'SBhiGr',
-        'Toprope - Average Grade':           'STavGr',
-        'Toprope - High Grade':              'SThiGr',
-        'Sport - Average Grade':           'SSavGr',
-        'Sport - High Grade':              'SShiGr',
-        'Bench Press - Max Weight':          'WBhiWt',
-        'Bench Press - Average Weight':      'WBavWt',
-        'Bench Press - Sets':                'WBsets',
-        'Bench Press - Reps':                'WBreps',
-        'One-Arm Negative - Max Weight':     'WOhiWt',
-        'One-Arm Negative - Average Weight': 'WOavWt',
-        'One-Arm Negative - Sets':           'WOsets',
-        'One-Arm Negative - Reps':           'WOreps',
-        'Pistol Squat - Max Weight':         'WPhiWt',
-        'Pistol Squat - Average Weight':     'WPavWt',
-        'Pistol Squat - Sets':               'WPsets',
-        'Pistol Squat - Reps':               'WPreps',
-        'Body Weight':                       'Bwght'
-    }
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -93,8 +50,8 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Setup axis options
         self.lAxBox.clear()
         self.rAxBox.clear()
-        self.lAxBox.addItems(self.axOptionsList)
-        self.rAxBox.addItems(self.axOptionsList)
+        self.lAxBox.addItems(constants.graph_ax_options_list)
+        self.rAxBox.addItems(constants.graph_ax_options_list)
 
         # Define default dates for calendars as system date-1 month, and system date
         today = QtCore.QDate.currentDate()
@@ -175,14 +132,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         elif type == UPDATE_LEFT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
-            type  = self.marshalled_options[self.lAxBox.currentText()]
+            type  = constants.marshalled_graph_ax_options[self.lAxBox.currentText()]
             x, y  = db_ops.get_data_points(start, end, type)
             self.lAx.clear()
             self.lAx.plot(x, y, 'b')
         elif type == UPDATE_RIGHT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
-            type  = self.marshalled_options[self.rAxBox.currentText()]
+            type  = constants.marshalled_graph_ax_options[self.rAxBox.currentText()]
             x, y  = db_ops.get_data_points(start, end, type)
             self.rAx.clear()
             self.rAx.plot(x, y, 'r')

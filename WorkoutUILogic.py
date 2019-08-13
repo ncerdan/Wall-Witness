@@ -4,6 +4,7 @@ from PyQt4 import QtGui, uic, QtCore
 
 # Personal
 import db_ops
+import constants
 
 """ UI Class """
 # load ui file for main layout
@@ -11,16 +12,6 @@ WorkoutDialogUI, WorkoutDialogBase = uic.loadUiType("ui/workoutDialog.ui")
 
 # use loaded ui file in ui logic class
 class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
-
-    typesList = ['--', 'Bench Press', '1-Arm Negative', 'Pistol Squat']
-    marshalled_type = {
-        'Bench Press': 'bench',
-        '1-Arm Negative': 'neg',
-        'Pistol Squat': 'pistol'
-    }
-
-    unitsList = ['lbs', 'kg']
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
@@ -28,7 +19,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add type options
         self.typeBox.clear()
-        self.typeBox.addItems(self.typesList)
+        self.typeBox.addItems(constants.workout_types_list)
 
         # Define default date for calendar as system date
         self.dateEdit.setDate(QtCore.QDate.currentDate())
@@ -50,7 +41,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add average weight units options
         self.avWtUnitsBox.clear()
-        self.avWtUnitsBox.addItems(self.unitsList)
+        self.avWtUnitsBox.addItems(constants.weight_units_list)
 
         # Ensure hiWt input is float
         doubleValidator3 = QtGui.QDoubleValidator()
@@ -59,7 +50,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
 
         # Add average weight units options
         self.hiWtUnitsBox.clear()
-        self.hiWtUnitsBox.addItems(self.unitsList)
+        self.hiWtUnitsBox.addItems(constants.weight_units_list)
 
         # Set up custom warning text
         self.warningLabel.setStyleSheet('QLabel#warningLabel {color: red}')
@@ -105,7 +96,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         hiUt = str(self.hiWtUnitsBox.currentText())
 
          # Marshall data that will be represeneted in DB differently
-        type = self.marshalled_type[type]
+        type = constants.marshalled_workout_types[type]
 
         # Possibly convert weight from kg -> lbs
         if avUt == 'kg': avWt = avWt * 2.205
