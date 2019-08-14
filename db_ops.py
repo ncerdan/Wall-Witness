@@ -180,10 +180,7 @@ def get_data_points(start, end, desired):
     Args:
         start (datetime.datetime): earliest date to query from
         end (datetime.datetime):   latest date to query from
-        desired (string):          what data to query ['SBhiGr', 'SBavGr', 'SThiGr', 'STavGr', 'SShiGr', 'SSavGr',
-                                                       'WBhiWt', 'WBavWt', 'WBsets', 'WBreps', 'WOhiWt', 'WOavWt',
-                                                       'WOsets', 'WOreps', 'WPhiWt', 'WPavWt', 'WPsets', 'WPreps',
-                                                       'Bwght']  =  (wall_witness. marshalled_data.values())
+        desired (string):          what data to query (constants.marshalled_graph_ax_options.values())
     Returns:
         ([datetime.datetime], [float]) for graphing
     """
