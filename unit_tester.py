@@ -1,10 +1,10 @@
 """ Imports """
 # Public
 import datetime
-import cache
+from cache import Cache
 
 
-c = cache.Cache()
+c = Cache()
 
 print(c.data_options_list)
 print(c.date_ranged_cached)

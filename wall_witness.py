@@ -7,8 +7,10 @@ from datetime import date, timedelta
 import matplotlib.dates as mdates
 
 # Personal
-import SessionUILogic, WorkoutUILogic, WeightUILogic
-import cache
+from SessionUILogic import SessionUILogic
+from WorkoutUILogic import WorkoutUILogic
+from WeightUILogic import WeightUILogic
+from cache import Cache
 import db_ops
 import constants
 
@@ -45,7 +47,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.setupUi(self)
 
         # Initialize cache object
-        self.cache = cache.Cache()
+        self.cache = Cache()
 
         # Setup exit action and shortcut
         self.actionExit.triggered.connect(self.close_app)
@@ -100,9 +102,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handles launching session, workout, or weight dialogs based on type
     def launch_dialog(self, type):
-        if (type == SESSION):   dialog = SessionUILogic.SessionUILogic(self)
-        elif (type == WORKOUT): dialog = WorkoutUILogic.WorkoutUILogic(self)
-        else:                   dialog = WeightUILogic.WeightUILogic(self)
+        if (type == SESSION):   dialog = SessionUILogic(self)
+        elif (type == WORKOUT): dialog = WorkoutUILogic(self)
+        else:                   dialog = WeightUILogic(self)
         dialog.exec_()
 
     # Handle closing application
