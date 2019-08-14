@@ -24,10 +24,12 @@ class Cache():
         self.data              = {key:None for key in self.data_options_list}
 
     # returns date range cached for a given ax-option
-    def get_date_range_cached(self, ax_option): return self.date_range_cached.get(ax_option) # Note: get() returns None if bad
+    def get_date_range_cached(self, ax_option):
+        return self.date_range_cached.get(ax_option) # Note: get() returns None if bad
 
     # Sets date range cached for a given ax_option
-    def set_date_range_cached(self, ax_option, start, end): self.date_range_cached[ax_option] = (start, end)
+    def set_date_range_cached(self, ax_option, start, end):
+        self.date_range_cached[ax_option] = (start, end)
 
     def all_in_cache(self, ax_option, start_date, end_date):
         """
