@@ -73,6 +73,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Set calendar reset button handler
         self.resetBtn.clicked.connect(self.reset_dates)
 
+        # Set graph refresh button handler
+        self.refreshBtn.clicked.connect(self.update_date_range)
+
     # Redirection functions for launching dialogs
     def launch_session(self): self.launch_dialog(constants.SESSION)
     def launch_workout(self): self.launch_dialog(constants.WORKOUT)

@@ -116,7 +116,7 @@
    <widget class="QDateEdit" name="startDateEdit">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>25</x>
       <y>270</y>
       <width>110</width>
       <height>30</height>
@@ -129,7 +129,7 @@
    <widget class="QDateEdit" name="endDateEdit">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>175</x>
       <y>270</y>
       <width>110</width>
       <height>30</height>
@@ -142,7 +142,7 @@
    <widget class="QLabel" name="startLabel">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>50</x>
       <y>250</y>
       <width>61</width>
       <height>16</height>
@@ -155,7 +155,7 @@
    <widget class="QLabel" name="endLabel">
     <property name="geometry">
      <rect>
-      <x>275</x>
+      <x>200</x>
       <y>250</y>
       <width>61</width>
       <height>16</height>
@@ -168,7 +168,7 @@
    <widget class="QPushButton" name="resetBtn">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>320</x>
       <y>270</y>
       <width>110</width>
       <height>30</height>
@@ -176,6 +176,19 @@
     </property>
     <property name="text">
      <string>Reset Dates</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="refreshBtn">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>270</y>
+      <width>110</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh Graph</string>
     </property>
    </widget>
   </widget>
