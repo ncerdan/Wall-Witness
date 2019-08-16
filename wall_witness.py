@@ -14,28 +14,6 @@ from cache import Cache
 import db_ops
 import constants
 
-""" Definitions """
-# Dialog control
-SESSION = 0
-WORKOUT = 1
-WEIGHT  = 2
-
-# Plotting control
-CLEAR_BOTH   = 0
-CLEAR_LEFT   = 1
-CLEAR_RIGHT  = 2
-UPDATE_LEFT  = 3
-UPDATE_RIGHT = 4
-
-# Granularity control
-DAILY      = 0
-WEEKLY     = 1
-BIWEEKLY   = 2
-MONTHLY    = 3
-BIMONTHLY  = 4
-SIXMONTHLY = 5
-YEARLY     = 6
-
 """ UI Class """
 # load ui file for main layout
 MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
@@ -74,7 +52,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Setup subplots and set them to be empty (FIX!!! with transparent background?)
         self.lAx = self.canvas.figure.subplots()
         self.rAx = self.lAx.twinx()
-        self.update_plot(CLEAR_BOTH)
+        self.update_plot(constants.CLEAR_BOTH)
         self.canvas.figure.patch.set_facecolor('#FFFFFF')
 
         # Setup x-axis format
@@ -96,15 +74,15 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         self.resetBtn.clicked.connect(self.reset_dates)
 
     # Redirection functions for launching dialogs
-    def launch_session(self): self.launch_dialog(SESSION)
-    def launch_workout(self): self.launch_dialog(WORKOUT)
-    def launch_weight(self):  self.launch_dialog(WEIGHT)
+    def launch_session(self): self.launch_dialog(constants.SESSION)
+    def launch_workout(self): self.launch_dialog(constants.WORKOUT)
+    def launch_weight(self):  self.launch_dialog(constants.WEIGHT)
 
     # Handles launching session, workout, or weight dialogs based on type
     def launch_dialog(self, type):
-        if (type == SESSION):   dialog = SessionUILogic(self)
-        elif (type == WORKOUT): dialog = WorkoutUILogic(self)
-        else:                   dialog = WeightUILogic(self)
+        if   (type == constants.SESSION): dialog = SessionUILogic(self)
+        elif (type == constants.WORKOUT): dialog = WorkoutUILogic(self)
+        else:                             dialog = WeightUILogic(self)
         dialog.exec_()
 
     # Handle closing application
@@ -113,36 +91,36 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     # Handle when user changes left axis option
     def left_axis_change(self):
         new = self.lAxBox.currentText()
-        if new == "--": self.update_plot(CLEAR_LEFT)
-        else:           self.update_plot(UPDATE_LEFT)
+        if new == "--": self.update_plot(constants.CLEAR_LEFT)
+        else:           self.update_plot(constants.UPDATE_LEFT)
 
     # Handle when user changes right axis option
     def right_axis_change(self):
         new = self.rAxBox.currentText()
-        if new == "--": self.update_plot(CLEAR_RIGHT)
-        else:           self.update_plot(UPDATE_RIGHT)
+        if new == "--": self.update_plot(constants.CLEAR_RIGHT)
+        else:           self.update_plot(constants.UPDATE_RIGHT)
 
     # Handle a change to the y-axes
     def update_plot(self, type):
-        if type == CLEAR_BOTH:
+        if type == constants.CLEAR_BOTH:
             self.lAx.clear()
             self.rAx.clear()
             self.lAx.plot()
             self.rAx.plot()
-        elif type == CLEAR_LEFT:
+        elif type == constants.CLEAR_LEFT:
             self.lAx.clear()
             self.lAx.plot()
-        elif type == CLEAR_RIGHT:
+        elif type == constants.CLEAR_RIGHT:
             self.rAx.clear()
             self.rAx.plot()
-        elif type == UPDATE_LEFT:
+        elif type == constants.UPDATE_LEFT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             type  = constants.marshalled_graph_ax_options[self.lAxBox.currentText()]
             x, y  = db_ops.get_data_points(start, end, type)
             self.lAx.clear()
             self.lAx.plot(x, y, 'b')
-        elif type == UPDATE_RIGHT:
+        elif type == constants.UPDATE_RIGHT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             type  = constants.marshalled_graph_ax_options[self.rAxBox.currentText()]
@@ -157,30 +135,30 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     def set_xaxis_granularity(self, granularity):
         xaxis = self.lAx.xaxis
 
-        if granularity == DAILY:
+        if granularity == constants.DAILY:
             xaxis.set_major_locator(mdates.DayLocator())
             xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
-        elif granularity == WEEKLY:
+        elif granularity == constants.WEEKLY:
             xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
             xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
             xaxis.set_minor_locator(mdates.DayLocator())
-        elif granularity == BIWEEKLY:
+        elif granularity == constants.BIWEEKLY:
             xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.SU, interval=2))
             xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
             xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=mdates.SU))
-        elif granularity == MONTHLY:
+        elif granularity == constants.MONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator())
             xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.DayLocator(bymonthday=15))
-        elif granularity == BIMONTHLY:
+        elif granularity == constants.BIMONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator(interval=2))
             xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.DayLocator(bymonthday=1))
-        elif granularity == SIXMONTHLY:
+        elif granularity == constants.SIXMONTHLY:
             xaxis.set_major_locator(mdates.MonthLocator(interval=6))
             xaxis.set_major_formatter(mdates.DateFormatter('%b \'%y'))
             xaxis.set_minor_locator(mdates.MonthLocator())
-        elif granularity == YEARLY:
+        elif granularity == constants.YEARLY:
             xaxis.set_major_locator(mdates.YearLocator())
             xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
             xaxis.set_minor_locator(mdates.MonthLocator(interval=3))
@@ -195,13 +173,13 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         delta = end - start
         days_delta = delta.days
 
-        if days_delta > 1200:  self.set_xaxis_granularity(YEARLY)
-        elif days_delta > 525: self.set_xaxis_granularity(SIXMONTHLY)
-        elif days_delta > 220: self.set_xaxis_granularity(BIMONTHLY)
-        elif days_delta > 99:  self.set_xaxis_granularity(MONTHLY)
-        elif days_delta > 54:  self.set_xaxis_granularity(BIWEEKLY)
-        elif days_delta > 9:   self.set_xaxis_granularity(WEEKLY)
-        else:                  self.set_xaxis_granularity(DAILY)
+        if days_delta > 1200:  self.set_xaxis_granularity(constants.YEARLY)
+        elif days_delta > 525: self.set_xaxis_granularity(constants.SIXMONTHLY)
+        elif days_delta > 220: self.set_xaxis_granularity(constants.BIMONTHLY)
+        elif days_delta > 99:  self.set_xaxis_granularity(constants.MONTHLY)
+        elif days_delta > 54:  self.set_xaxis_granularity(constants.BIWEEKLY)
+        elif days_delta > 9:   self.set_xaxis_granularity(constants.WEEKLY)
+        else:                  self.set_xaxis_granularity(constants.DAILY)
 
     # Update x-axis to start and end values from dateEdit's
     def update_date_range(self):

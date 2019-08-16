@@ -1,6 +1,8 @@
 ######################
 # Main Window values #
 ######################
+
+# Axis options control
 graph_ax_options_list = ['--',
                      'Boulder - Average Grade',
                      'Boulder - High Grade',
@@ -43,6 +45,27 @@ marshalled_graph_ax_options = {
     'Pistol Squat - Reps':               'WPreps',
     'Body Weight':                       'Bwght'
 }
+
+# Dialog control
+SESSION = 0
+WORKOUT = 1
+WEIGHT  = 2
+
+# Plotting control
+CLEAR_BOTH   = 0
+CLEAR_LEFT   = 1
+CLEAR_RIGHT  = 2
+UPDATE_LEFT  = 3
+UPDATE_RIGHT = 4
+
+# Granularity control
+DAILY      = 0
+WEEKLY     = 1
+BIWEEKLY   = 2
+MONTHLY    = 3
+BIMONTHLY  = 4
+SIXMONTHLY = 5
+YEARLY     = 6
 
 #########################
 # Session Dialog Values #
