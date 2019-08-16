@@ -52,9 +52,9 @@ class Cache():
         # Return if query dates are included in cached dates
         return cache_start_date <= start_date and cache_end_date >= end_date
 
-    def add_to_cache(self, ax_option, date_list, data_list):
+    def add_one_range_to_cache(self, ax_option, date_list, data_list):
         """
-        Add data to cache. date_list and data_list must have same length
+        Add data from one continuous range to cache (data is disjoint from what in cache already).
         Args:
             ax_option  (string):             axis option in question
             date_list ([datetime.datetime]): list of x-values in order
@@ -63,51 +63,43 @@ class Cache():
             Boolean - if successful.
         """
 
-        # Check lengths are the same
-        if len(date_list) != len(data_list):
+        # Check lengths are the same and positive
+        if len(date_list) != len(data_list) or len(date_list) < 1:
             return False
 
         # Create list of tuples to add to cache and get min/max date
         list_of_tuples = []
 
-        #assuming len > 0
         min_date = date_list[0]
         max_date = date_list[0]
         for i in range(len(date_list)):
             list_of_tuples.append((date_list[i], data_list[i]))
-
-            if date_list[i] < min_date:         # NEED TO TEST FULLY
-                min_date = date_list[i]         #
-            if date_list[i] > max_date:         #
-                max_date = date_list[i]         #
+            if date_list[i] < min_date: min_date = date_list[i]
+            if date_list[i] > max_date: max_date = date_list[i]
 
         # Assume this data is not already in the cache?
         #     will assume yes for now...
 
-        # Either create value list with data or add to existing list
+        # Either create new data list or add to existing list. Update date range accordingly
         current = self.data[ax_option]
+        cache_start_date, cache_end_date = self.get_date_range_cached(ax_option)
         if current == None:
             self.data[ax_option] = list_of_tuples
-        else:
-            # sort where data goes so it remains in order?
-            self.data[ax_option].append(list_of_tuples)
-
-        # Update cache date range
-        cache_start_date, cache_end_date = self.get_date_range_cached(ax_option)
-        if cache_start_date == None and cache_end_date == None:
             self.set_date_range_cached(ax_option, min_date, max_date)
         else:
-            if min_date < cache_start_date:
-                new_start = min_date
-            else:
-                new_start = cache_start_date
+            # Place new data either at start or end of cached data
+            #    since assuming this data is disjoint with new data
+            #    AND new data must be bordering cached data
 
-            if max_date > cache_end_date:
-                new_end = max_date
-            else:
-                new_ed = cache_end_date
-
-            self.set_date_range_cached(ax_option, new_start, new_end)
+            # New data before cache data
+            if max_date < cache_start_date:
+                list_of_tuples.extend(self.data[ax_option])
+                self.data[ax_option] = list_of_tuples
+                self.set_date_range_cached(ax_option, min_date, cache_end_date)
+            # New data after cache data
+            elif min_date > cache_end_date:
+                self.data[ax_option].extend(list_of_tuples)
+                self.set_date_range_cached(ax_option, cache_start_date, max_date)
 
         # Success
         return True
