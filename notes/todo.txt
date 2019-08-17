@@ -7,6 +7,9 @@ OVERALL
 - pretty up (optional)
 
 SPECIFIC
+- utilize cache object in dbops object
+    - clear cache when adding data
+    - attempt to use cache when querying data
 - get on data point to left / right of graph edges so trend lines extend to edge? (how?)
 - allow refined session graph plots
     ex: optional in/out filter, location filter
