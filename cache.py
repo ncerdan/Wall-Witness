@@ -33,7 +33,7 @@ class Cache():
 
     def all_in_cache(self, ax_option, start_date, end_date):
         """
-        Checks whether all needed data between dates is stored in cache.
+        Predicate for whether all needed data between dates is stored in cache.
         Args:
             ax_option  (string):            axis option in question
             start_date (datetime.datetime): start date of query
@@ -104,11 +104,60 @@ class Cache():
         # Success
         return True
 
-    def clear_cache(self, ax_option):
+    def clear_cache_by_type(self, type):
         """
-        Removes ax_option's cached data and metadata.
+        Removes all cached data and metadata related to type.
         Args:
-            ax_option (string): axis option in question
+            type (string): type of axis option to remove ['boulder', 'toprope', 'sport', 'bench', 'neg', 'pistol', 'wght']
+        Returns:
+            Boolean - if succeeded
+        """
+
+        if type == 'boulder':
+            # Remove bouldering data
+            self.clear_cache_by_ax_option('SBavGr')
+            self.clear_cache_by_ax_option('SBhiGr')
+        elif type == 'toprope':
+            # Remove toprope data
+            self.clear_cache_by_ax_option('STavGr')
+            self.clear_cache_by_ax_option('SThiGr')
+        elif type == 'sport':
+            # Remove sport data
+            self.clear_cache_by_ax_option('SSavGr')
+            self.clear_cache_by_ax_option('SShiGr')
+        elif type == 'bench':
+            # Remove bench-press data
+            self.clear_cache_by_ax_option('WBhiWt')
+            self.clear_cache_by_ax_option('WBavWt')
+            self.clear_cache_by_ax_option('WBsets')
+            self.clear_cache_by_ax_option('WBreps')
+        elif type == 'neg':
+            # Remove 1-arm negative data
+            self.clear_cache_by_ax_option('WOhiWt')
+            self.clear_cache_by_ax_option('WOavWt')
+            self.clear_cache_by_ax_option('WOsets')
+            self.clear_cache_by_ax_option('WOreps')
+        elif type == 'pistol':
+            # Remove pistol squat data
+            self.clear_cache_by_ax_option('WPhiWt')
+            self.clear_cache_by_ax_option('WPavWt')
+            self.clear_cache_by_ax_option('WPsets')
+            self.clear_cache_by_ax_option('WPreps')
+        elif type == 'wght':
+            # remove body weight data
+            self.clear_cache_by_ax_option('Bwght')
+        else:
+            # Error handle bad input
+            print(type + " is not valid input to clear_cache_by_type.")
+            return False
+
+        return True
+
+    def clear_cache_by_ax_option(self, ax_option):
+        """
+        Removes ax_option's data and metadata.
+        Args:
+            type (ax_option): axis option to remove (constants.marshalled_graph_ax_options.values())
         Returns:
             null
         """
@@ -118,3 +167,4 @@ class Cache():
 
         # Removes its date range
         self.date_range_cached[ax_option] = (None, None)
+

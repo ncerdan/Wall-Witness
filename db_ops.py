@@ -70,6 +70,9 @@ class DBOps():
         # Check if it is a new pr
         self.check_new_pr(type_i, hiGr_i, date)
 
+        # Clear relevant cache data
+        # TODO!!!
+
     def add_workout(self, type, date, sets, reps, avWt, hiWt):
         """
         Insert new workout data into the workouts collection.
@@ -106,6 +109,9 @@ class DBOps():
         # Check if it is a new pr
         self.check_new_pr(type_i, hiWt_i, date)
 
+        # Clear relevant cache data
+        # TODO!!!
+
     def add_weight(self, date, wght):
         """
         Insert new weight data into the weights collection.
@@ -129,6 +135,9 @@ class DBOps():
 
         # Check if it is a new pr
         self.check_new_pr('wght', wght_i, date)
+
+        # Clear relevant cache data
+        # TODO!!!
 
     # Updating Documents
     def check_new_pr(self, type, new_data, date):
