@@ -3,7 +3,6 @@
 from PyQt4 import QtGui, uic, QtCore
 
 # Personal
-import db_ops
 import constants
 
 """ UI Class """
@@ -12,10 +11,16 @@ WorkoutDialogUI, WorkoutDialogBase = uic.loadUiType("ui/workoutDialog.ui")
 
 # use loaded ui file in ui logic class
 class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, dbops=None):
+        if dbops == None:
+            return
+
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.setupUi(self)
+
+        # Save database operations object
+        self.db_ops = dbops
 
         # Add type options
         self.typeBox.clear()
@@ -107,7 +112,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         hiWt = round(hiWt, 1)
 
         # Add new entry into the database
-        db_ops.add_workout(type, date, sets, reps, avWt, hiWt)
+        self.db_ops.add_workout(type, date, sets, reps, avWt, hiWt)
 
         # Close dialog
         self.close_dialog()

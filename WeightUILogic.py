@@ -3,7 +3,6 @@
 from PyQt4 import QtGui, uic, QtCore
 
 # Personal
-import db_ops
 import constants
 
 """ UI Class """
@@ -12,10 +11,16 @@ WeightDialogUI, WeightDialogBase = uic.loadUiType("ui/weightDialog.ui")
 
 # use loaded ui file in ui logic class
 class WeightUILogic(WeightDialogBase, WeightDialogUI):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, dbops=None):
+        if dbops == None:
+            return
+
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.setupUi(self)
+
+        # Save database operations object
+        self.db_ops = dbops
 
         # Ensure weight input is double
         doubleValidator = QtGui.QDoubleValidator()
@@ -59,7 +64,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         weight = round(weight, 1)
 
         # Add new entry into the database
-        db_ops.add_weight(date, weight)
+        self.db_ops.add_weight(date, weight)
 
         # Close dialog
         self.close_dialog()

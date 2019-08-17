@@ -11,7 +11,7 @@ from SessionUILogic import SessionUILogic
 from WorkoutUILogic import WorkoutUILogic
 from WeightUILogic import WeightUILogic
 from cache import Cache
-import db_ops
+from db_ops import DBOps
 import constants
 
 """ UI Class """
@@ -24,8 +24,8 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         super().__init__(parent)
         self.setupUi(self)
 
-        # Initialize cache object
-        self.cache = Cache()
+        # Initialize database operations object
+        self.db_ops = DBOps()
 
         # Setup exit action and shortcut
         self.actionExit.triggered.connect(self.close_app)
@@ -83,9 +83,9 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
     # Handles launching session, workout, or weight dialogs based on type
     def launch_dialog(self, type):
-        if   (type == constants.SESSION): dialog = SessionUILogic(self)
-        elif (type == constants.WORKOUT): dialog = WorkoutUILogic(self)
-        else:                             dialog = WeightUILogic(self)
+        if   (type == constants.SESSION): dialog = SessionUILogic(self, dbops=self.db_ops)
+        elif (type == constants.WORKOUT): dialog = WorkoutUILogic(self, dbops=self.db_ops)
+        else:                             dialog = WeightUILogic(self, dbops=self.db_ops)
         dialog.exec_()
 
     # Handle closing application
@@ -120,14 +120,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             type  = constants.marshalled_graph_ax_options[self.lAxBox.currentText()]
-            x, y  = db_ops.get_data_points(start, end, type)
+            x, y  = self.db_ops.get_data_points(start, end, type)
             self.lAx.clear()
             self.lAx.plot(x, y, 'b')
         elif type == constants.UPDATE_RIGHT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             type  = constants.marshalled_graph_ax_options[self.rAxBox.currentText()]
-            x, y  = db_ops.get_data_points(start, end, type)
+            x, y  = self.db_ops.get_data_points(start, end, type)
             self.rAx.clear()
             self.rAx.plot(x, y, 'r')
 
