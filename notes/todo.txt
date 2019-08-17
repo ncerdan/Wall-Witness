@@ -7,8 +7,9 @@ OVERALL
 - pretty up (optional)
 
 SPECIFIC
+- get on data point to left / right of graph edges so trend lines extend to edge? (how?)
 - allow refined session graph plots
     ex: optional in/out filter, location filter
 - change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
-- x-axis labels good? (recheck granularities)
+- fix x-axis labels (recheck granularities)
     - 10 days is bad

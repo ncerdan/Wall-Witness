@@ -52,7 +52,7 @@ class Cache():
         # Return if query dates are included in cached dates
         return cache_start_date <= start_date and cache_end_date >= end_date
 
-    def add_one_range_to_cache(self, ax_option, date_list, data_list):
+    def add_data_to_cache(self, ax_option, date_list, data_list):
         """
         Add data from one continuous range to cache (data is disjoint from what in cache already).
         Args:
