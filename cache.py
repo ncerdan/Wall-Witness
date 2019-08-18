@@ -123,7 +123,6 @@ class Cache():
         # Create the two lists to return by splitting up cached tuples
         date_list = []
         data_list = []
-
         for (date, data) in list:
             # Make sure data is within query limits
             if start <= date and date <= end:

@@ -8,7 +8,8 @@ OVERALL
 
 !!! CRITICAL !!!
 - cannot assume date range in cache is 1 continuous range so change it to store list of date ranges
-    - or just only allow cache to grow if new quer is adjacent, otherwise clear it and begin new?
+    - just only allow cache to grow if new query is adjacent, otherwise clear it and begin new
+        - case where user will have two non-adjacent date ranges is rare
 
 BUGS
 - refresh dates seems to query twice for each active axis. second query only looks at cache.

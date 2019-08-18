@@ -6,7 +6,7 @@
 - update/edit button (also using tables?)
 - transition animations for new graphs, dates, or windows?
 
-- add manual caching from server (IP)
+- add manual caching from server (Done?)
     - if cached when updating/adding entry -> update / clear cache (then reload graph?)
     - otherwise cache still valid -- no need to change
 

@@ -324,7 +324,7 @@ class DBOps():
             """ TESTING """
             print('no db querying needed' + ' (' + str(status) + ')')
 
-        # Now that everything is cached, go through cache and get all data
+        # Now that everything is cached, get all data from the cache quickly
         final_x, final_y = self.cache.query_data_from_cache(ax_option, start, end)
 
         """ TESTING """
