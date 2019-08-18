@@ -43,7 +43,7 @@ marshalled_graph_ax_options = {
     'Pistol Squat - Average Weight':     'WPavWt',
     'Pistol Squat - Sets':               'WPsets',
     'Pistol Squat - Reps':               'WPreps',
-    'Body Weight':                       'Bwght'
+    'Body Weight':                       'BWwght'
 }
 
 # Dialog control
@@ -115,3 +115,12 @@ marshalled_workout_types = {
 # Weight Dailog Values #
 ########################
 weight_units_list = ['lbs', 'kg']
+
+#######################
+# DBOps Object Values #
+#######################
+NO_CACHE = 0
+ALL_IN_CACHE = 1
+LATER_THAN_CACHE = 2
+EARLIER_THAN_CACHE = 3
+SURROUND_CACHE = 4

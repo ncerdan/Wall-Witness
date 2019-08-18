@@ -1,10 +1,11 @@
 """ Imports """
 # Public
 from pymongo import MongoClient
-import datetime
+from datetime import datetime, timedelta
 
 # Personal
 from cache import Cache
+import constants
 
 """ Variables  """
 url = 'mongodb://ncerdan:AzsiRNGAC6dMdsqe@ncerdan-shard-00-00-bqvu0.mongodb.net:27017,ncerdan-shard-00-01-bqvu0.mongodb.net:27017,ncerdan-shard-00-02-bqvu0.mongodb.net:27017/test?ssl=true&replicaSet=ncerdan-shard-0&authSource=admin&retryWrites=true&w=majority'
@@ -71,7 +72,7 @@ class DBOps():
         self.check_new_pr(type_i, hiGr_i, date)
 
         # Clear relevant cache data
-        # TODO!!!
+        self.cache.clear_cache_by_type(type_i)
 
     def add_workout(self, type, date, sets, reps, avWt, hiWt):
         """
@@ -110,7 +111,7 @@ class DBOps():
         self.check_new_pr(type_i, hiWt_i, date)
 
         # Clear relevant cache data
-        # TODO!!!
+        self.cache.clear_cache_by_type(type_i)
 
     def add_weight(self, date, wght):
         """
@@ -137,7 +138,7 @@ class DBOps():
         self.check_new_pr('wght', wght_i, date)
 
         # Clear relevant cache data
-        # TODO!!!
+        self.cache.clear_cache_by_type('wght')
 
     # Updating Documents
     def check_new_pr(self, type, new_data, date):
@@ -192,53 +193,157 @@ class DBOps():
         return -999
 
     # Querying Data
-    def get_data_points(self, start, end, desired):
+    def get_data_points(self, start, end, ax_option):
         """
         Gets type data between start and end dates.
         Args:
             start (datetime.datetime): earliest date to query from
             end (datetime.datetime):   latest date to query from
-            desired (string):          what data to query (constants.marshalled_graph_ax_options.values())
+            ax_option (string):        axis option to query [constants.marshalled_graph_ax_options.values()]
         Returns:
             ([datetime.datetime], [float]) for graphing
         """
-        # Session query
-        if desired[0] == 'S':
+
+        # Check to use cache, then only query what's needed
+        #   this section assumes cache is one continuous range - will need to change later
+        cache_start, cache_end = self.cache.get_date_range_cached(ax_option)
+        if cache_start == None and cache_end == None:
+            # No cached data
+            db_query_start = start
+            db_query_end   = end
+            status         = constants.NO_CACHE
+        elif cache_start <= start and cache_end >= end:
+            # All needed data is cached
+            c_query_start = start
+            c_query_end   = end
+            status        = constants.ALL_IN_CACHE
+        elif cache_start <= start and cache_end < end:
+            # Need to query 'later' than cache
+            c_query_start  = start
+            c_query_end    = cache_end
+            db_query_start = cache_end + timedelta(days=1)
+            db_query_end   = end
+            status         = constants.LATER_THAN_CACHE
+        elif cache_start > start and cache_end >= end:
+            # Need to query 'earlier' than cache
+            db_query_start = start
+            db_query_end   = cache_start - timedelta(days=1)
+            c_query_start  = cache_start
+            c_query_end    = end
+            status      = constants.EARLIER_THAN_CACHE
+        elif cache_start > start and cache_end < end:
+            # Need to query both 'earlier' and 'later' than cache
+            left_db_query_start  = start
+            left_db_query_end    = cache_start - timedelta(days=1)
+            c_query_start        = cache_start
+            c_query_end          = cache_end
+            right_db_query_start = cache_end + timedelta(days=1)
+            right_db_query_end   = end
+            status               = constants.SURROUND_CACHE
+        else:
+            # Logic error
+            print('Nick, u r a fool - logic error')
+
+        # Perform query specific by ax_option
+        if ax_option[:2] == 'SB':
             col = self.sessions
-            if desired[1] == 'B':
-                type = 'boulder'
-            elif desired[1] == 'T':
-                type = 'toprope'
-            else:
-                type = 'sport'
-
-            cursor = col.find({
-                'date': {'$gte': start, '$lte': end},
-                'type': {'$eq': type}
-            })
-            key = desired[2:]
-
-        # Workout query
-        elif desired[0] == 'W':
+            type = 'boulder'
+        elif ax_option[:2] == 'ST':
+            col = self.sessions
+            type = 'toprope'
+        elif ax_option[:2] == 'SS':
+            col = self.sessions
+            type = 'sport'
+        elif ax_option[:2] == 'WB':
             col = self.workouts
-            if desired[1] == 'B':
-                type = 'bench'
-            elif desired[1] == 'O':
-                type = 'neg'
-            else:
-                type = 'pistol'
-
-            cursor = col.find({
-                'date': {'$gte': start, '$lte': end},
-                'type': {'$eq': type}
-            })
-            key = desired[2:]
-
-        # Bodyweight query
+            type = 'bench'
+        elif ax_option[:2] == 'WO':
+            col = self.workouts
+            type = 'neg'
+        elif ax_option[:2] == 'WP':
+            col = self.workouts
+            type = 'pistol'
         else:
             col = self.weights
-            cursor = col.find({ 'date': { '$gte': start, '$lte': end }})
-            key = 'wght'
+            type = None
+
+        # Key for type of data to query
+        key = ax_option[2:]
+
+        # Case where one database query is needed
+        if status == constants.NO_CACHE or status == constants.EARLIER_THAN_CACHE or status == constants.LATER_THAN_CACHE:
+            # Session or workout
+            if type != None:
+                cursor = col.find({
+                    'date': {'$gte': db_query_start, '$lte': db_query_end},
+                    'type': {'$eq': type}
+                })
+            # Body weight
+            else:
+                cursor = col.find({ 'date': { '$gte': db_query_start, '$lte': db_query_end }})
+
+            # Format results
+            db_x, db_y = self.split_queried_list(cursor, key)
+
+            # Add new data to cache
+            self.cache.add_data_to_cache(ax_option, db_x, db_y, db_query_start, db_query_end)
+
+            """ TESTING """
+            print('Just added data to ' + ax_option + ' (' + str(status) + ')')
+
+        # Case where two database queries are needed
+        elif status == constants.SURROUND_CACHE:
+            # Session or workout
+            if type != None:
+                left_cursor = col.find({
+                    'date': {'$gte': left_db_query_start, '$lte': left_db_query_end},
+                    'type': {'$eq': type}
+                })
+                right_cursor = col.find({
+                    'date': {'$gte': right_db_query_start, '$lte': right_db_query_end},
+                    'type': {'$eq': type}
+                })
+            # Body weight
+            else:
+                left_cursor  = col.find({ 'date': { '$gte': left_db_query_start, '$lte': left_db_query_end }})
+                right_cursor = col.find({ 'date': { '$gte': right_db_query_start, '$lte': right_db_query_end }})
+
+            # Format results
+            l_db_x, l_db_y = self.split_queried_list(left_cursor, key)
+            r_db_x, r_db_y = self.split_queried_list(right_cursor, key)
+
+            # Add new data to cache
+            self.cache.add_data_to_cache(ax_option, l_db_x, l_db_y, left_db_query_start, left_db_query_end)
+            self.cache.add_data_to_cache(ax_option, r_db_x, r_db_y, right_db_query_start, right_db_query_end)
+
+            """ TESTING """
+            print('Just added data to ' + ax_option + ' (' + str(status) + ')')
+
+        # Case where no database queries are needed
+        else:
+            """ TESTING """
+            print('no db querying needed' + ' (' + str(status) + ')')
+
+        # Now that everything is cached, go through cache and get all data
+        final_x, final_y = self.cache.query_data_from_cache(ax_option, start, end)
+
+        """ TESTING """
+        print('cache is now:')
+        self.cache.print()
+        """ END TESTING """
+
+        # Return final result
+        return final_x, final_y
+
+    def split_queried_list(self, cursor, key):
+        """
+        Gets data from cursor suing key and returns tuple of lists.
+        Args:
+            cursor (Cursor): cursor to results from db query
+            key (string):    four-character key for what data to get
+        Returns:
+            ([datetime.datetime], [float]) for caching and graphing
+        """
 
         # Create list of tuples to sort
         list_of_tuples = []
@@ -251,10 +356,10 @@ class DBOps():
         sorted_list = sorted(list_of_tuples, key=lambda tup: tup[0])
 
         # Split into lists to return
-        x = []
-        y = []
+        date_list = []
+        data_list = []
         for (date, data) in sorted_list:
-            x.append(date)
-            y.append(data)
+            date_list.append(date)
+            data_list.append(data)
 
-        return x, y
+        return date_list, data_list
