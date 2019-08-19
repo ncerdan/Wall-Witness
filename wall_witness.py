@@ -10,7 +10,6 @@ import matplotlib.dates as mdates
 from SessionUILogic import SessionUILogic
 from WorkoutUILogic import WorkoutUILogic
 from WeightUILogic import WeightUILogic
-from cache import Cache
 from db_ops import DBOps
 import constants
 

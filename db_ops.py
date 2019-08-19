@@ -42,7 +42,7 @@ class DBOps():
             locn (string):            location of session,
             note (string):            notes of session.
         Returns:
-            none.
+            no return.
         """
 
         # Marshall data
@@ -85,7 +85,7 @@ class DBOps():
             avWt (float):             weight average,
             hiWt (float):             weight maximum.
         Returns:
-            none.
+            no return.
         """
 
         # Marshall data
@@ -120,7 +120,7 @@ class DBOps():
             date (datetime.datetime): date for entry,
             wght (float):             weight for entry.
         Returns:
-            none.
+            no return.
         """
 
         # Marshall data
@@ -149,7 +149,7 @@ class DBOps():
             new_data (float):         new grade/weight pr,
             date (datetime.datetime): date of new pr.
         Returns:
-            none.
+            no return.
         """
 
         # Get the current pr record of the given type
@@ -168,7 +168,7 @@ class DBOps():
             rcrd (float):             new grade/weight pr,
             date (datetime.datetime): date pr was attained.
         Returns:
-            none.
+            no return.
         """
 
         # Marshall data
@@ -197,11 +197,11 @@ class DBOps():
         """
         Gets type data between start and end dates.
         Args:
-            start (datetime.datetime): earliest date to query from
-            end (datetime.datetime):   latest date to query from
-            ax_option (string):        axis option to query [constants.marshalled_graph_ax_options.values()]
+            start (datetime.datetime): earliest date to query from,
+            end (datetime.datetime):   latest date to query from,
+            ax_option (string):        axis option to query [constants.marshalled_graph_ax_options.values()].
         Returns:
-            ([datetime.datetime], [float]) for graphing
+            ([datetime.datetime], [float]) for graphing.
         """
 
         # Check to use cache, then only query what's needed
@@ -346,10 +346,10 @@ class DBOps():
         """
         Gets data from cursor using key and returns tuple of lists.
         Args:
-            cursor (Cursor): cursor to results from db query
-            key (string):    four-character key for what data to get
+            cursor (Cursor): cursor to results from db query,
+            key (string):    four-character key for what data to get.
         Returns:
-            ([datetime.datetime], [float]) for caching and graphing
+            ([datetime.datetime], [float]) for caching and graphing.
         """
 
         # Create list of tuples to sort
