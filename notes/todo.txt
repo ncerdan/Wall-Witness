@@ -2,23 +2,22 @@ OVERALL
 - fully check db_ops (inserting and checking prs)
 - fully check GUI functionality (empty fields and marshalling)
 - fully check data visualization and dates functionality
-- personalized caching system to save stored data
+- finalize caching system
 - add table into GUI to display data (using pyQT) ... use for editting/deleting?
 - pretty up (optional)
 
-!!! CRITICAL !!!
-- cannot assume date range in cache is 1 continuous range so change it to store list of date ranges
-    - just only allow cache to grow if new query is adjacent, otherwise clear it and begin new
-        - case where user will have two non-adjacent date ranges is rare
-
 BUGS
-- refresh dates seems to query twice for each active axis. second query only looks at cache.
+- can only assume date range in cache is 1 continuous range iff we only allow cache to grow if new query is adjacent, otherwise clear it and begin new
+	- case where use will ahve two non-adjacent date ranges is rare
+- refresh dates seems to query twice for each active axis. second query only looks at cache (which is how it should work), but why query at all?
 
 SPECIFIC
-- fix bugs ^
-- get on data point to left / right of graph edges so trend lines extend to edge? (how?)
+- execute bugs ^
+- get on data point to left / right of graph edges so trend lines extend to edge (how?)
 - allow refined session graph plots
     ex: optional in/out filter, location filter
 - change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
+	- also show units is weight
+		- toggle between lbs/kgs?
 - fix x-axis labels (recheck granularities)
     - 10 days is bad

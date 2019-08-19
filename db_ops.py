@@ -71,7 +71,7 @@ class DBOps():
         # Check if it is a new pr
         self.check_new_pr(type_i, hiGr_i, date)
 
-        # Clear relevant cache data
+        # Clear relevant cache data that is now dirty
         self.cache.clear_cache_by_type(type_i)
 
     def add_workout(self, type, date, sets, reps, avWt, hiWt):
@@ -110,7 +110,7 @@ class DBOps():
         # Check if it is a new pr
         self.check_new_pr(type_i, hiWt_i, date)
 
-        # Clear relevant cache data
+        # Clear relevant cache data that is now dirty
         self.cache.clear_cache_by_type(type_i)
 
     def add_weight(self, date, wght):
@@ -137,7 +137,7 @@ class DBOps():
         # Check if it is a new pr
         self.check_new_pr('wght', wght_i, date)
 
-        # Clear relevant cache data
+        # Clear relevant cache data that is now dirty
         self.cache.clear_cache_by_type('wght')
 
     # Updating Documents
@@ -205,8 +205,12 @@ class DBOps():
         """
 
         # Check to use cache, then only query what's needed
-        #   this section assumes cache is one continuous range - will need to change later
+        #   THIS SESTION ASSUMES cache is one continuous range AND new query is adjacent - will need to change later?
         cache_start, cache_end = self.cache.get_date_range_cached(ax_option)
+
+
+        # Check that new query is adjacent here and clear cache if it is not?
+
         if cache_start == None and cache_end == None:
             # No cached data
             db_query_start = start
@@ -230,7 +234,7 @@ class DBOps():
             db_query_end   = cache_start - timedelta(days=1)
             c_query_start  = cache_start
             c_query_end    = end
-            status      = constants.EARLIER_THAN_CACHE
+            status         = constants.EARLIER_THAN_CACHE
         elif cache_start > start and cache_end < end:
             # Need to query both 'earlier' and 'later' than cache
             left_db_query_start  = start
@@ -241,8 +245,8 @@ class DBOps():
             right_db_query_end   = end
             status               = constants.SURROUND_CACHE
         else:
-            # Logic error
-            print('Nick, u r a fool - logic error')
+            # Not logically possible?
+            print('Nick, u r a fool - logic error in get_data_points')
 
         # Perform query specific by ax_option
         if ax_option[:2] == 'SB':
@@ -283,13 +287,14 @@ class DBOps():
                 cursor = col.find({ 'date': { '$gte': db_query_start, '$lte': db_query_end }})
 
             # Format results
-            db_x, db_y = self.split_queried_list(cursor, key)
+            db_x, db_y = self.parse_cursor(cursor, key)
 
             # Add new data to cache
             self.cache.add_data_to_cache(ax_option, db_x, db_y, db_query_start, db_query_end)
 
-            """ TESTING """
-            print('Just added data to ' + ax_option + ' (' + str(status) + ')')
+            """   TESTING   """
+            print('Just added data to ' + ax_option + ' (' + constants.get_status_text(status) + ')')
+            """ END TESTING """
 
         # Case where two database queries are needed
         elif status == constants.SURROUND_CACHE:
@@ -309,25 +314,27 @@ class DBOps():
                 right_cursor = col.find({ 'date': { '$gte': right_db_query_start, '$lte': right_db_query_end }})
 
             # Format results
-            l_db_x, l_db_y = self.split_queried_list(left_cursor, key)
-            r_db_x, r_db_y = self.split_queried_list(right_cursor, key)
+            l_db_x, l_db_y = self.parse_cursor(left_cursor, key)
+            r_db_x, r_db_y = self.parse_cursor(right_cursor, key)
 
             # Add new data to cache
             self.cache.add_data_to_cache(ax_option, l_db_x, l_db_y, left_db_query_start, left_db_query_end)
             self.cache.add_data_to_cache(ax_option, r_db_x, r_db_y, right_db_query_start, right_db_query_end)
 
-            """ TESTING """
-            print('Just added data to ' + ax_option + ' (' + str(status) + ')')
+            """   TESTING   """
+            print('Just added data to ' + ax_option + ' (' + constants.get_status_text(status) + ')')
+            """ END TESTING """
 
         # Case where no database queries are needed
         else:
-            """ TESTING """
-            print('no db querying needed' + ' (' + str(status) + ')')
+            """   TESTING   """
+            print('no db querying needed' + ' (' + constants.get_status_text(status) + ')')
+            """ END TESTING """
 
-        # Now that everything is cached, get all data from the cache quickly
+        # Now that everything is cached, get all data from the cache quickly (O(N))
         final_x, final_y = self.cache.query_data_from_cache(ax_option, start, end)
 
-        """ TESTING """
+        """   TESTING   """
         print('cache is now:')
         self.cache.print()
         """ END TESTING """
@@ -335,9 +342,9 @@ class DBOps():
         # Return final result
         return final_x, final_y
 
-    def split_queried_list(self, cursor, key):
+    def parse_cursor(self, cursor, key):
         """
-        Gets data from cursor suing key and returns tuple of lists.
+        Gets data from cursor using key and returns tuple of lists.
         Args:
             cursor (Cursor): cursor to results from db query
             key (string):    four-character key for what data to get
