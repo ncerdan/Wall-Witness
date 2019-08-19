@@ -13,6 +13,8 @@ BUGS
 
 SPECIFIC
 - execute bugs ^
+- change constants.graph_ax_options_list to not include '--', and just manually add it in mainwindow ui logic
+	- then change self.data_options_list creation line to remove filter of != '--'
 - get on data point to left / right of graph edges so trend lines extend to edge (how?)
 - allow refined session graph plots
     ex: optional in/out filter, location filter
