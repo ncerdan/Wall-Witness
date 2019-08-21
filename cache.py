@@ -52,32 +52,6 @@ class Cache():
 
         self.date_range_cached[ax_option] = (start, end)
 
-"""
-    NOT NEEDED --> DELETE?
-
-    def all_in_cache(self, ax_option, start_date, end_date):
-        ""
-        Predicate for whether all needed data between dates is stored in cache.
-        Args:
-            ax_option  (string):            axis option in question,
-            start_date (datetime.datetime): start date of query,
-            end_date   (datetime.datetime): end date of query.
-        Returns:
-            Boolean
-        #""
-
-        # Get date range
-        cache_start_date, cache_end_date = self.get_date_range_cached(ax_option)
-
-        # Case for empty cache
-        if cache_start_date == None and cache_end_date == None:
-            return False
-
-        # Return if query dates are included in cached dates
-        return cache_start_date <= start_date and cache_end_date >= end_date
-
-"""
-
     def add_data_to_cache(self, ax_option, date_list, data_list, range_start, range_end):
         """
         Add one continuous range of data to the cache (data is disjoint from what in cached already).
@@ -223,7 +197,7 @@ class Cache():
         # Remove its metadata
         self.date_range_cached[ax_option] = (None, None)
 
-"""   TESTING   """
+    """   TESTING   """
     def print(self, ax_opt=None):
         if ax_opt != None:
             print('=====================================')
@@ -242,4 +216,4 @@ class Cache():
                 print(self.data[ax_option])
                 print('Date Range:')
                 print(self.get_date_range_cached(ax_option))
-""" END TESTING """
+    """ END TESTING """
