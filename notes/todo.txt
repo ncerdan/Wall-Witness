@@ -8,7 +8,7 @@ OVERALL
 
 BUGS
 - can only assume date range in cache is 1 continuous range iff we only allow cache to grow if new query is adjacent, otherwise clear it and begin new
-	- case where use will ahve two non-adjacent date ranges is rare
+	- okay to do bc the case where use will have two non-adjacent date ranges is rare
 	- NEED TO: add check that new data is adjacent -- how?
 - refresh dates seems to query twice for each active axis. second query only looks at cache (which is how it should work), but why query a second time at all?
 
