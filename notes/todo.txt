@@ -3,8 +3,7 @@ OVERALL
 - fully check GUI functionality (empty fields and marshalling)
 - fully check data visualization and dates functionality
 - finalize caching system
-- add table into GUI to display data (using pyQT) ... use for editting/deleting?
-- pretty up (optional)
+- WHEN DONE: Delete todo.txt and ideas.txt
 
 BUGS
 - can only assume date range in cache is 1 continuous range iff we only allow cache to grow if new query is adjacent, otherwise clear it and begin new
@@ -14,6 +13,7 @@ BUGS
 
 SPECIFIC
 - execute bugs ^
+- move url to private file that is not included in git (.gitignore) so only I can access DB
 - get data point to left / right of graph edges so trend lines extend to edge (how to do efficiently?)
 - allow refined session fitlering for graph plots
     ex: optional in/out filter, location filter
