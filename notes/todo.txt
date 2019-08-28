@@ -13,7 +13,6 @@ BUGS
 
 SPECIFIC
 - execute bugs ^
-- move url to private file that is not included in git (.gitignore) so only I can access DB
 - get data point to left / right of graph edges so trend lines extend to edge (how to do efficiently?)
 - allow refined session fitlering for graph plots
     ex: optional in/out filter, location filter
