@@ -6,9 +6,10 @@ from datetime import datetime, timedelta
 # Personal
 from cache import Cache
 import constants
+import private
 
 """ Variables  """
-url = 'mongodb://ncerdan:AzsiRNGAC6dMdsqe@ncerdan-shard-00-00-bqvu0.mongodb.net:27017,ncerdan-shard-00-01-bqvu0.mongodb.net:27017,ncerdan-shard-00-02-bqvu0.mongodb.net:27017/test?ssl=true&replicaSet=ncerdan-shard-0&authSource=admin&retryWrites=true&w=majority'
+url = private.url
 
 class DBOps():
     """ Setup """
