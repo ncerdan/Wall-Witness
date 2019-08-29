@@ -6,14 +6,15 @@ OVERALL
 - WHEN DONE: Delete todo.txt and ideas.txt
 
 BUGS
-- can only assume date range in cache is 1 continuous range iff we only allow cache to grow if new query is adjacent, otherwise clear it and begin new
-	- okay to do bc the case where use will have two non-adjacent date ranges is rare
-	- NEED TO: add check that new data is adjacent -- how?
-- refresh dates seems to query twice for each active axis. second query only looks at cache (which is how it should work), but why query a second time at all?
+- if new query is adjacent, just do regular cache. otherwise, clear cache and begin new
+	- ensures that we can always assume date range in cache is 1 continuous range 
+	- okay to do bc the case where the user will have two non-adjacent date ranges is rare
+	- NEED TO: check whether query is adjacent
+		- just check if one of the date ranges is included in cache?
+- refreshing dates seems to query twice for each active axis. second query only looks at cache (which is how it should work), but why query a second time at all?
 
 SPECIFIC
 - execute bugs ^
-- get data point to left / right of graph edges so trend lines extend to edge (how to do efficiently?)
 - allow refined session fitlering for graph plots
     ex: optional in/out filter, location filter
 		- add to axis option list or through some other functionality?
