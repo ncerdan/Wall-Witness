@@ -1,7 +1,4 @@
 OVERALL							  STATUS
-- fully check db_ops .............. X
-- fully check GUI ................. X
-- fully check graph ............... X
 - finalize caching system ......... IP
 
 SPECIFIC
@@ -16,4 +13,4 @@ SPECIFIC
 
 WHEN DONE:
 - Delete todo.txt and ideas.txt
-- remove testing print statements
+- remove testing print statements from all files (search for "TESTING")
