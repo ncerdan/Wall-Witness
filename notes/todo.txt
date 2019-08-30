@@ -1,18 +1,19 @@
-OVERALL
-- fully check db_ops (inserting and checking prs)
-- fully check GUI functionality (empty fields and marshalling)
-- fully check data visualization and dates functionality
-- finalize caching system
-- WHEN DONE:
-    - Delete todo.txt and ideas.txt
-    - remove testing print statements
+OVERALL							  STATUS
+- fully check db_ops .............. X
+- fully check GUI ................. X
+- fully check graph ............... X
+- finalize caching system ......... IP
 
 SPECIFIC
+- fix x-axis labels (recheck granularities)
+    -> 10 days is bad!!
 - allow refined session fitlering for graph plots
     ex: optional in/out filter, location filter
 		- add to axis option list or through some other functionality?
 - change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
-	- also show units is weight
+	- also show units for weight
 		- toggle between lbs/kgs?
-- fix x-axis labels (recheck granularities)
-    -> 10 days is bad!!
+
+WHEN DONE:
+- Delete todo.txt and ideas.txt
+- remove testing print statements

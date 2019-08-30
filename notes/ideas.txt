@@ -1,4 +1,0 @@
-- allow ability to add workouts (think squats, max pullups, etc)
-- make location a drop down with ^addition functionality^ for future filtering?
-- have dynamic table title to describe what the axis are?
-    - or are combo boxes enough?
