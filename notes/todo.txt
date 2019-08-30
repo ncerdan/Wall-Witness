@@ -3,18 +3,11 @@ OVERALL
 - fully check GUI functionality (empty fields and marshalling)
 - fully check data visualization and dates functionality
 - finalize caching system
-- WHEN DONE: Delete todo.txt and ideas.txt
-
-BUGS
-- if new query is adjacent, just do regular cache. otherwise, clear cache and begin new
-	- ensures that we can always assume date range in cache is 1 continuous range 
-	- okay to do bc the case where the user will have two non-adjacent date ranges is rare
-	- NEED TO: check whether query is adjacent
-		- just check if one of the date ranges is included in cache?
-- refreshing dates seems to query twice for each active axis. second query only looks at cache (which is how it should work), but why query a second time at all?
+- WHEN DONE:
+    - Delete todo.txt and ideas.txt
+    - remove testing print statements
 
 SPECIFIC
-- execute bugs ^
 - allow refined session fitlering for graph plots
     ex: optional in/out filter, location filter
 		- add to axis option list or through some other functionality?

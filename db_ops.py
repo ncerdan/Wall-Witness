@@ -206,11 +206,12 @@ class DBOps():
         """
 
         # Check to use cache, then only query what's needed
-        #   THIS SESTION ASSUMES cache is one continuous range AND new query is adjacent - will need to change later?
         cache_start, cache_end = self.cache.get_date_range_cached(ax_option)
 
-
-        # Check that new query is adjacent here and clear cache if it is not?
+        # If new query is not adjacent to cached data, clear the cache
+        if (cache_end != None and cache_end < start) or (cache_start != None and end < cache_start):
+            print('cleared cache to ensure its contiguous')
+            self.cache.clear_cache_by_ax_option(ax_option)
 
         if cache_start == None and cache_end == None:
             # No cached data

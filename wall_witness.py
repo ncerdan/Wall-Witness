@@ -121,14 +121,16 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             type  = constants.marshalled_graph_ax_options[self.lAxBox.currentText()]
             x, y  = self.db_ops.get_data_points(start, end, type)
             self.lAx.clear()
-            self.lAx.plot(x, y, 'b')
+            if x != None and y != None:
+                self.lAx.plot(x, y, 'b')
         elif type == constants.UPDATE_RIGHT:
             start = self.startDateEdit.dateTime().toPyDateTime()
             end   = self.endDateEdit.dateTime().toPyDateTime()
             type  = constants.marshalled_graph_ax_options[self.rAxBox.currentText()]
             x, y  = self.db_ops.get_data_points(start, end, type)
             self.rAx.clear()
-            self.rAx.plot(x, y, 'r')
+            if x != None and y != None:
+                self.rAx.plot(x, y, 'r')
 
         self.set_date_range()
         self.canvas.figure.canvas.draw()
