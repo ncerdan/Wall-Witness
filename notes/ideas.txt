@@ -1,0 +1,3 @@
+- allow refined session filtering for graph plots
+    ex: optional in/out filter, location filter
+		- add to axis option list or through some other functionality?

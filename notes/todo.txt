@@ -2,14 +2,11 @@ OVERALL							  STATUS
 - finalize caching system ......... IP
 
 SPECIFIC
-- fix x-axis labels (recheck granularities)
+- recheck x-axis granularities
     -> 10 days is bad!!
-- allow refined session fitlering for graph plots
-    ex: optional in/out filter, location filter
-		- add to axis option list or through some other functionality?
-- change values of y-axis to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
-	- also show units for weight
-		- toggle between lbs/kgs?
+- display y-axis values properly
+	- change to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
+	- show units for weight
 
 WHEN DONE:
 - Delete todo.txt and ideas.txt
