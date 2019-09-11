@@ -12,9 +12,9 @@ JSON Data Structure:
     'hiGr': float = bldr: 0.0-15.0, else: 5.8-5.15d,                             ^(a=.00,b=.25,c=.50,d=.75)
     'note': string = any extra notes
 }
-    -all required except 'note' (--> fill with NONE if no notes? does it handle Null well automatically?)
+    -all required except 'note'
     -show progress of each type independently
-        -overlay two types at same time with different axis?
+        -overlay two types at same time with different axis
     -calculate/save current PR of each
 
 -----
@@ -46,4 +46,4 @@ JSON Data Structure:
     'rcrd': float = grade/weight of pr,
     'date': datetime.datetime() objects = date of getting pr
 }
-    -one entry per type. only update entries once theyre first put in.
+    -one entry per type. only update entries once they're first put in.
