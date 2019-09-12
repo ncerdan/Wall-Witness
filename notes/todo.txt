@@ -6,4 +6,4 @@ SPECIFIC
 	- show units for weight
 
 WHEN DONE:
-- Delete todo.txt and ideas.txt
+- Delete todo.txt
