@@ -118,8 +118,3 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         self.close_dialog()
 
     def close_dialog(self): self.done(1)
-
-
-
-
-
