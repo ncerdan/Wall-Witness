@@ -124,19 +124,3 @@ ALL_IN_CACHE = 1
 LATER_THAN_CACHE = 2
 EARLIER_THAN_CACHE = 3
 SURROUND_CACHE = 4
-
-"""   TESTING   """
-def get_status_text(status):
-    if status == NO_CACHE:
-        return "nothing in cache"
-    elif status == ALL_IN_CACHE:
-        return "all in cache"
-    elif status == LATER_THAN_CACHE:
-        return "later than cache"
-    elif status == EARLIER_THAN_CACHE:
-        return "earlier than cache"
-    elif status == SURROUND_CACHE:
-        return "surrounding cache"
-    else:
-        return "undefined status input"
-""" END TESTING """

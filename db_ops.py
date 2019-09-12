@@ -210,7 +210,6 @@ class DBOps():
 
         # If new query is not adjacent to cached data, clear the cache
         if (cache_end != None and cache_end < start) or (cache_start != None and end < cache_start):
-            print('cleared cache to ensure its contiguous')
             self.cache.clear_cache_by_ax_option(ax_option)
 
         if cache_start == None and cache_end == None:
@@ -246,9 +245,6 @@ class DBOps():
             right_db_query_start = cache_end + timedelta(days=1)
             right_db_query_end   = end
             status               = constants.SURROUND_CACHE
-        else:
-            # Not logically possible?
-            print('Nick, u r a fool - logic error in get_data_points')
 
         # Perform query specific by ax_option
         if ax_option[:2] == 'SB':
@@ -294,10 +290,6 @@ class DBOps():
             # Add new data to cache
             self.cache.add_data_to_cache(ax_option, db_x, db_y, db_query_start, db_query_end)
 
-            """   TESTING   """
-            print('Just added data to ' + ax_option + ' (' + constants.get_status_text(status) + ')')
-            """ END TESTING """
-
         # Case where two database queries are needed
         elif status == constants.SURROUND_CACHE:
             # Session or workout
@@ -323,23 +315,8 @@ class DBOps():
             self.cache.add_data_to_cache(ax_option, l_db_x, l_db_y, left_db_query_start, left_db_query_end)
             self.cache.add_data_to_cache(ax_option, r_db_x, r_db_y, right_db_query_start, right_db_query_end)
 
-            """   TESTING   """
-            print('Just added data to ' + ax_option + ' (' + constants.get_status_text(status) + ')')
-            """ END TESTING """
-
-        # Case where no database queries are needed
-        else:
-            """   TESTING   """
-            print('no db querying needed' + ' (' + constants.get_status_text(status) + ')')
-            """ END TESTING """
-
         # Now that everything is cached, get all data from the cache quickly (O(N))
         final_x, final_y = self.cache.query_data_from_cache(ax_option, start, end)
-
-        """   TESTING   """
-        print('cache is now:')
-        self.cache.print()
-        """ END TESTING """
 
         # Return final result
         return final_x, final_y

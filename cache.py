@@ -196,24 +196,3 @@ class Cache():
 
         # Remove its metadata
         self.date_range_cached[ax_option] = (None, None)
-
-    """   TESTING   """
-    def print(self, ax_opt=None):
-        if ax_opt != None:
-            print('=====================================')
-            print(ax_opt + ':')
-            print('-----')
-            print('Data:')
-            print(self.data[ax_opt])
-            print('Date Range:')
-            print(self.get_date_range_cached(ax_opt))
-        else:
-            for ax_option in constants.marshalled_graph_ax_options.values():
-                print('=====================================')
-                print(ax_option + ':')
-                print('-----')
-                print('Data:')
-                print(self.data[ax_option])
-                print('Date Range:')
-                print(self.get_date_range_cached(ax_option))
-    """ END TESTING """
