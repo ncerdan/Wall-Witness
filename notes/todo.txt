@@ -8,4 +8,5 @@ SPECIFIC
 WHEN DONE:
 - Delete todo.txt and ideas.txt
 - remove testing print statements from all files (search for "TESTING")
+- remove deleting functions in db_ops
 - finalize comments and code structure

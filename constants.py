@@ -3,26 +3,28 @@
 ######################
 
 # Axis options control
-graph_ax_options_list = ['--',
-                     'Boulder - Average Grade',
-                     'Boulder - High Grade',
-                     'Toprope - Average Grade',
-                     'Toprope - High Grade',
-                     'Sport - Average Grade',
-                     'Sport - High Grade',
-                     'Bench Press - Max Weight',
-                     'Bench Press - Average Weight',
-                     'Bench Press - Sets',
-                     'Bench Press - Reps',
-                     'One-Arm Negative - Max Weight',
-                     'One-Arm Negative - Average Weight',
-                     'One-Arm Negative - Sets',
-                     'One-Arm Negative - Reps',
-                     'Pistol Squat - Max Weight',
-                     'Pistol Squat - Average Weight',
-                     'Pistol Squat - Sets',
-                     'Pistol Squat - Reps',
-                     'Body Weight']
+graph_ax_options_list = [
+    '--',
+    'Boulder - Average Grade',
+    'Boulder - High Grade',
+    'Toprope - Average Grade',
+    'Toprope - High Grade',
+    'Sport - Average Grade',
+    'Sport - High Grade',
+    'Bench Press - Max Weight',
+    'Bench Press - Average Weight',
+    'Bench Press - Sets',
+    'Bench Press - Reps',
+    'One-Arm Negative - Max Weight',
+    'One-Arm Negative - Average Weight',
+    'One-Arm Negative - Sets',
+    'One-Arm Negative - Reps',
+    'Pistol Squat - Max Weight',
+    'Pistol Squat - Average Weight',
+    'Pistol Squat - Sets',
+    'Pistol Squat - Reps',
+    'Body Weight'
+]
 
 marshalled_graph_ax_options = {
     'Boulder - Average Grade':           'SBavGr',
