@@ -1,4 +1,4 @@
-""" Import  """
+""" Imports """
 # Public
 from PyQt4 import QtGui, uic, QtCore
 
@@ -6,10 +6,10 @@ from PyQt4 import QtGui, uic, QtCore
 import constants
 
 """ UI Class """
-# load ui file for main layout
+# Load ui file for dialog layout
 SessionDialogUI, SessionDialogBase = uic.loadUiType("ui/sessionDialog.ui")
 
-# use loaded ui file in ui logic class
+# Use loaded ui file in ui logic class
 class SessionUILogic(SessionDialogBase, SessionDialogUI):
     def __init__(self, parent=None, dbops=None):
         if dbops == None:
@@ -53,7 +53,7 @@ class SessionUILogic(SessionDialogBase, SessionDialogUI):
         self.hiGrBox.clear()
         self.hiGrBox.addItem('--')
 
-        # Set up custom warning text
+        # Setup custom warning text
         self.warningLabel.setStyleSheet('QLabel#warningLabel {color: red}')
         self.warningLabel.hide()
 

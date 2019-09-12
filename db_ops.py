@@ -24,7 +24,7 @@ class DBOps():
         self.weights  = self.db.weights
         self.prs      = self.db.prs
 
-        # Initializing cache
+        # Initializing personal cache
         self.cache = Cache()
 
     """ Functions """
@@ -182,16 +182,6 @@ class DBOps():
 
         # Update the correct pr to the new data
         self.prs.update({'type': type}, to_update)
-
-    # Deleting Documents (based off of what?)
-    def del_session(self):
-        return -999
-
-    def del_workout(self):
-        return -999
-
-    def del_weight(self):
-        return -999
 
     # Querying Data
     def get_data_points(self, start, end, ax_option):

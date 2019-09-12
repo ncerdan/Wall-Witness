@@ -1,5 +1,5 @@
 ######################
-# Main Window values #
+# Main Window Values #
 ######################
 
 # Axis options control

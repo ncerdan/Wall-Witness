@@ -1,4 +1,4 @@
-""" Import  """
+""" Imports """
 # Public
 from PyQt4 import QtGui, uic, QtCore
 
@@ -6,10 +6,10 @@ from PyQt4 import QtGui, uic, QtCore
 import constants
 
 """ UI Class """
-# load ui file for main layout
+# Load ui file for dialog layout
 WeightDialogUI, WeightDialogBase = uic.loadUiType("ui/weightDialog.ui")
 
-# use loaded ui file in ui logic class
+# Use loaded ui file in ui logic class
 class WeightUILogic(WeightDialogBase, WeightDialogUI):
     def __init__(self, parent=None, dbops=None):
         if dbops == None:
@@ -34,7 +34,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         # Define default date for calendar as system date
         self.dateEdit.setDate(QtCore.QDate.currentDate())
 
-        # Set up custom warning text
+        # Setup custom warning text
         self.warningLabel.setStyleSheet('QLabel#warningLabel {color: red}')
         self.warningLabel.hide()
 
@@ -56,7 +56,7 @@ class WeightUILogic(WeightDialogBase, WeightDialogUI):
         units =  str(self.unitsBox.currentText())
         date =   self.dateEdit.dateTime().toPyDateTime()
 
-        # Possibly convert weight from kg -> lbs
+        # Possibly convert weight from kg to lbs
         if units == 'kg':
             weight = weight * 2.205
 

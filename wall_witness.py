@@ -14,10 +14,10 @@ from db_ops import DBOps
 import constants
 
 """ UI Class """
-# load ui file for main layout
+# Load ui file for main layout
 MainWindowUI, MainWindowBase = uic.loadUiType("ui/mainWindow.ui")
 
-# use loaded ui file in ui logic class
+# Use loaded ui file in ui logic class
 class MainUILogic(MainWindowBase, MainWindowUI):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -189,7 +189,6 @@ class MainUILogic(MainWindowBase, MainWindowUI):
     def update_date_range(self):
         self.set_date_range()
 
-        # Temporary - inefficient bc can query all data again --> use custom cache?
         self.left_axis_change()
         self.right_axis_change()
 

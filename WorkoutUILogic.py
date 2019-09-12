@@ -1,4 +1,4 @@
-""" Import  """
+""" Imports """
 # Public
 from PyQt4 import QtGui, uic, QtCore
 
@@ -6,10 +6,10 @@ from PyQt4 import QtGui, uic, QtCore
 import constants
 
 """ UI Class """
-# load ui file for main layout
+# Load ui file for dialog layout
 WorkoutDialogUI, WorkoutDialogBase = uic.loadUiType("ui/workoutDialog.ui")
 
-# use loaded ui file in ui logic class
+# Use loaded ui file in ui logic class
 class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
     def __init__(self, parent=None, dbops=None):
         if dbops == None:
@@ -57,7 +57,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
         self.hiWtUnitsBox.clear()
         self.hiWtUnitsBox.addItems(constants.weight_units_list)
 
-        # Set up custom warning text
+        # Setup custom warning text
         self.warningLabel.setStyleSheet('QLabel#warningLabel {color: red}')
         self.warningLabel.hide()
 
@@ -103,7 +103,7 @@ class WorkoutUILogic(WorkoutDialogBase, WorkoutDialogUI):
          # Marshall data that will be represeneted in DB differently
         type = constants.marshalled_workout_types[type]
 
-        # Possibly convert weight from kg -> lbs
+        # Possibly convert weight from kg to lbs
         if avUt == 'kg': avWt = avWt * 2.205
         if hiUt == 'kg': hiWt = hiWt * 2.205
 

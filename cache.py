@@ -1,4 +1,4 @@
-""" Import """
+""" Imports """
 # Public
 import datetime
 
@@ -76,9 +76,6 @@ class Cache():
         for i in range(len(date_list)):
             list_of_tuples.append((date_list[i], data_list[i]))
 
-        # Assume this data is not already in the cache?
-        #     will assume yes for now...
-
         # Either create new data list or add to existing list. Update date range accordingly
         current = self.data[ax_option]
         cache_start_date, cache_end_date = self.get_date_range_cached(ax_option)
@@ -87,15 +84,10 @@ class Cache():
             self.set_date_range_cached(ax_option, range_start, range_end)
         else:
             # Place new data either at start or end of cached data
-            #    since assuming this data is disjoint with new data
-            #    AND new data must be adjacent to cached data
-
-            # New data goes before cache data
             if range_end < cache_start_date:
-                list_of_tuples.extend(self.data[ax_option]) # change to list_of_tuples.extend(current) to be more efficient?
+                list_of_tuples.extend(self.data[ax_option])
                 self.data[ax_option] = list_of_tuples
                 self.set_date_range_cached(ax_option, range_start, cache_end_date)
-            # New data goes after cache data
             elif range_start > cache_end_date:
                 self.data[ax_option].extend(list_of_tuples)
                 self.set_date_range_cached(ax_option, cache_start_date, range_end)
@@ -124,7 +116,7 @@ class Cache():
         date_list = []
         data_list = []
         for (date, data) in list:
-            # Make sure data is within query limits
+            # Make sure data is within query date limits
             if start <= date and date <= end:
                 date_list.append(date)
                 data_list.append(data)
