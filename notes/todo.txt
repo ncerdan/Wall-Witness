@@ -1,6 +1,3 @@
-OVERALL							  STATUS
-- finalize caching system ......... IP
-
 SPECIFIC
 - recheck x-axis granularities
     -> 10 days is bad!!
@@ -11,3 +8,4 @@ SPECIFIC
 WHEN DONE:
 - Delete todo.txt and ideas.txt
 - remove testing print statements from all files (search for "TESTING")
+- finalize comments and code structure
