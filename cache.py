@@ -65,9 +65,13 @@ class Cache():
             Boolean - if successful.
         """
 
-        # Check lengths are the same and positive
-        if len(date_list) != len(data_list) or len(date_list) < 1:
+        # Check lengths are the same
+        if len(date_list) != len(data_list):
             print("Bad input to add_data_to_cache")
+            return False
+
+        # If given empty data, just exit
+        if len(date_list) < 1:
             return False
 
         # Create list of tuples to add to cache
