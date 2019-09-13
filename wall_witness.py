@@ -114,6 +114,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
 
         # Modify ticks for empty data and climbing data properly
         if new == '--':
+            # Empty data has no ticks
             ax.set_yticks([])
         if new[:7] == 'Boulder':
             # Bouldering must be integers
@@ -127,7 +128,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             new_ticks = np.arange(int(min(ticks)), int(max(ticks)+1), .25)
             ax.set_yticks(new_ticks)
 
-        # Update labels to match new ticks
+        # Format labels to match new ticks properly
         labels = [item.get_text() for item in ax.get_yticklabels()]
         ticks  = ax.get_yticks()
 
