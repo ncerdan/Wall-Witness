@@ -5,6 +5,8 @@ from PyQt4 import uic, QtGui, QtCore
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
 import matplotlib.dates as mdates
+import math
+import numpy as np
 
 # Personal
 from SessionUILogic import SessionUILogic
@@ -48,11 +50,10 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         # Setup button handlers
         self.setup_buttons()
 
-        # Setup subplots and set them to be empty (FIX!!! with transparent background?)
+        # Setup subplots and set them to be empty
         self.lAx = self.canvas.figure.subplots()
         self.rAx = self.lAx.twinx()
         self.update_plot(constants.CLEAR_BOTH)
-        self.canvas.figure.patch.set_facecolor('#FFFFFF')
 
         # Setup x-axis format
         self.update_date_range()
@@ -95,12 +96,54 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         new = self.lAxBox.currentText()
         if new == "--": self.update_plot(constants.CLEAR_LEFT)
         else:           self.update_plot(constants.UPDATE_LEFT)
+        self.update_yticks(constants.LEFT, new)
 
     # Handle when user changes right axis option
     def right_axis_change(self):
         new = self.rAxBox.currentText()
         if new == "--": self.update_plot(constants.CLEAR_RIGHT)
         else:           self.update_plot(constants.UPDATE_RIGHT)
+        self.update_yticks(constants.RIGHT, new)
+
+    # Formats y-axis ticks and labels properly
+    def update_yticks(self, axis, new):
+        if axis == constants.LEFT:
+            ax = self.lAx
+        else:
+            ax = self.rAx
+
+        # Modify ticks for empty data and climbing data properly
+        if new == '--':
+            ax.set_yticks([])
+        if new[:7] == 'Boulder':
+            # Bouldering must be integers
+            ticks = ax.get_yticks()
+            new_ticks = range(int(min(ticks))-1, int(max(ticks))+2)
+            ax.set_yticks(new_ticks)
+        elif new[:7] == 'Toprope' or new[:5] == 'Sport':
+            # Ropes must be increments of .25
+            ticks = ax.get_yticks()
+            new_ticks = ax.get_yticks()
+            new_ticks = np.arange(int(min(ticks)), int(max(ticks)+1), .25)
+            ax.set_yticks(new_ticks)
+
+        # Update labels to match new ticks
+        labels = [item.get_text() for item in ax.get_yticklabels()]
+        ticks  = ax.get_yticks()
+
+        for i in range(len(labels)):
+            if new == '--':
+                labels[i] = ""
+            elif new[:7] == 'Boulder':
+                labels[i] = constants.axis_grades_boulder[ticks[i]]
+            elif new[:7] == 'Toprope' or new[:5] == 'Sport':
+                labels[i] = constants.axis_grades_rope[ticks[i]]
+            else:
+                # workout or body weight
+                labels[i] = str(round(ticks[i], 1)) + "lbs"
+
+        ax.set_yticklabels(labels)
+        self.canvas.figure.canvas.draw()
 
     # Handle a change to the y-axes
     def update_plot(self, type):
@@ -109,6 +152,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
             self.rAx.clear()
             self.lAx.plot()
             self.rAx.plot()
+            self.canvas.figure.canvas.draw()
         elif type == constants.CLEAR_LEFT:
             self.lAx.clear()
             self.lAx.plot()
@@ -133,7 +177,6 @@ class MainUILogic(MainWindowBase, MainWindowUI):
                 self.rAx.plot(x, y, 'r')
 
         self.set_date_range()
-        self.canvas.figure.canvas.draw()
 
     # Set x-axis granularity to avoid overlap
     def set_xaxis_granularity(self, granularity):
@@ -172,6 +215,7 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         start = self.startDateEdit.dateTime().toPyDateTime()
         end   = self.endDateEdit.dateTime().toPyDateTime()
         self.lAx.set_xlim(start, end)
+        self.rAx.set_xlim(start, end)
 
         # Check new date delta and set new x-axis granularity
         delta = end - start
