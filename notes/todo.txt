@@ -1,9 +1,7 @@
 SPECIFIC
 - recheck x-axis granularities
     -> 10 days is bad!!
-- display y-axis values properly
-	- change to letter grades if session (i.e. 11.75 --> 5.11d OR 7 --> v7)
-	- show units for weight
+- bench press y-labels too long
 
 WHEN DONE:
 - Delete todo.txt
