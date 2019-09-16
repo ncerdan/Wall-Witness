@@ -230,8 +230,6 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         delta = end - start
         days_delta = delta.days
 
-        print(days_delta)
-
         if   days_delta > 1200: self.set_xaxis_granularity(constants.YEARLY)
         elif days_delta > 410:  self.set_xaxis_granularity(constants.SIXMONTHLY)
         elif days_delta > 220:  self.set_xaxis_granularity(constants.BIMONTHLY)

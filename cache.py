@@ -67,7 +67,6 @@ class Cache():
 
         # Check lengths are the same
         if len(date_list) != len(data_list):
-            print("Bad input to add_data_to_cache")
             return False
 
         # If given empty data, just exit
@@ -171,7 +170,6 @@ class Cache():
             self.clear_cache_by_ax_option('BWwght')
         else:
             # Error handle bad input
-            print(type + " is not valid input to clear_cache_by_type.")
             return False
 
         # Success
