@@ -230,12 +230,14 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         delta = end - start
         days_delta = delta.days
 
+        print(days_delta)
+
         if   days_delta > 1200: self.set_xaxis_granularity(constants.YEARLY)
-        elif days_delta > 525:  self.set_xaxis_granularity(constants.SIXMONTHLY)
+        elif days_delta > 410:  self.set_xaxis_granularity(constants.SIXMONTHLY)
         elif days_delta > 220:  self.set_xaxis_granularity(constants.BIMONTHLY)
         elif days_delta > 99:   self.set_xaxis_granularity(constants.MONTHLY)
         elif days_delta > 54:   self.set_xaxis_granularity(constants.BIWEEKLY)
-        elif days_delta > 9:    self.set_xaxis_granularity(constants.WEEKLY)
+        elif days_delta > 7:    self.set_xaxis_granularity(constants.WEEKLY)
         else:                   self.set_xaxis_granularity(constants.DAILY)
 
     # Update x-axis to start and end values from dateEdit's
