@@ -113,7 +113,6 @@ class Cache():
         # Get list in data structure
         list = self.data[ax_option]
         if list == None:
-            print('cache querying empty list error')
             return (None, None)
 
         # Create the two lists to return by splitting up cached tuples

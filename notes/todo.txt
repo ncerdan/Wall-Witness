@@ -1,7 +1,6 @@
 SPECIFIC
 - recheck x-axis granularities
     -> 10 days is bad!!
-- bench press y-labels too long
 
 WHEN DONE:
 - Delete todo.txt
