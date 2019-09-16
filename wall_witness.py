@@ -119,13 +119,21 @@ class MainUILogic(MainWindowBase, MainWindowUI):
         if new[:7] == 'Boulder':
             # Bouldering must be integers
             ticks = ax.get_yticks()
-            new_ticks = range(int(min(ticks))-1, int(max(ticks))+2)
+
+            mn = max(0,  int(min(ticks)) - 1)
+            mx = min(13, int(max(ticks)) + 2)
+
+            new_ticks = range(mn, mx)
             ax.set_yticks(new_ticks)
         elif new[:7] == 'Toprope' or new[:5] == 'Sport':
             # Ropes must be increments of .25
             ticks = ax.get_yticks()
+
+            mn = max(0,     int(min(ticks)))
+            mx = min(13.75, int(max(ticks))+1)
+
             new_ticks = ax.get_yticks()
-            new_ticks = np.arange(int(min(ticks)), int(max(ticks)+1), .25)
+            new_ticks = np.arange(mn, mx, .25)
             ax.set_yticks(new_ticks)
 
         # Format labels to match new ticks properly
