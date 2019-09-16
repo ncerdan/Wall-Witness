@@ -1,6 +1,0 @@
-SPECIFIC
-- recheck x-axis granularities
-    -> 10 days is bad!!
-
-WHEN DONE:
-- Delete todo.txt
