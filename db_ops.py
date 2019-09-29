@@ -209,13 +209,9 @@ class DBOps():
             status         = constants.NO_CACHE
         elif cache_start <= start and cache_end >= end:
             # All needed data is cached
-            c_query_start = start
-            c_query_end   = end
             status        = constants.ALL_IN_CACHE
         elif cache_start <= start and cache_end < end:
             # Need to query 'later' than cache
-            c_query_start  = start
-            c_query_end    = cache_end
             db_query_start = cache_end + timedelta(days=1)
             db_query_end   = end
             status         = constants.LATER_THAN_CACHE
@@ -223,15 +219,11 @@ class DBOps():
             # Need to query 'earlier' than cache
             db_query_start = start
             db_query_end   = cache_start - timedelta(days=1)
-            c_query_start  = cache_start
-            c_query_end    = end
             status         = constants.EARLIER_THAN_CACHE
         elif cache_start > start and cache_end < end:
             # Need to query both 'earlier' and 'later' than cache
             left_db_query_start  = start
             left_db_query_end    = cache_start - timedelta(days=1)
-            c_query_start        = cache_start
-            c_query_end          = cache_end
             right_db_query_start = cache_end + timedelta(days=1)
             right_db_query_end   = end
             status               = constants.SURROUND_CACHE
